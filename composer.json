@@ -1,0 +1,5 @@
+{
+    "name": "christianbaltazar/wp-simple-notify",
+    "description": "A simple WP plugin to email handle notifications",
+    "require": {}
+}
