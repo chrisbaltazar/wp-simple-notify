@@ -2,7 +2,7 @@
 
 namespace SimpleNotify;
 
-class Boostrap {
+class Bootstrap {
 
 	const PLUGIN_NAME = 'wp-simple-notify';
 
