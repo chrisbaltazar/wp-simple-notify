@@ -8,7 +8,7 @@ class Bootstrap {
 
 	const MENU_SLUG = 'wp-simple-notify-admin';
 
-	const POST_DATA_ACTION = 'wp-simple-notify-settings';
+	const POST_DATA_ACTION = 'wp_simpl_notify_settings';
 
 	public static function init() {
 		$obj = new self;
@@ -28,6 +28,11 @@ class Bootstrap {
 	}
 
 	public function manage_assets() {
+		if ( ! $this->is_plugin_page() ) {
+			return;
+		}
+
+		wp_enqueue_style( 'boostrap4-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' );
 
 	}
 
@@ -42,5 +47,15 @@ class Bootstrap {
 				include __DIR__ . '/templates/main-settings.php';
 			}
 		);
+	}
+
+	public function is_plugin_page() {
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		$screen = get_current_screen();
+
+		return strpos( $screen->id, self::MENU_SLUG ) !== false;
 	}
 }
