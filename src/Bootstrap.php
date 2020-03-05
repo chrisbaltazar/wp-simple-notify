@@ -8,12 +8,10 @@ class Bootstrap {
 
 	const MENU_SLUG = 'wp-simple-notify-admin';
 
-	const POST_DATA_ACTION = 'wp_simpl_notify_settings';
+	const POST_DATA_ACTION = 'wp_simple_notify_settings';
 
 	public static function init() {
 		$obj = new self;
-
-		add_action( 'plugins_loaded', [ $obj, 'run' ] );
 
 		add_action( 'admin_enqueue_scripts', [ $obj, 'manage_assets' ] );
 

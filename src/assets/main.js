@@ -4,7 +4,9 @@ new Vue({
         emulateJSON: true,
         emulateHTTP: true
     },
-    data: {},
+    data: {
+        config: {}
+    },
     methods: {},
     created() {
 
