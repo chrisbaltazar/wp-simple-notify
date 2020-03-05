@@ -20,11 +20,13 @@ class Bootstrap {
 		add_action( 'admin_menu', [ $obj, 'set_admin_menu' ] );
 
 		add_action( 'admin_post_' . self::POST_DATA_ACTION, [ new Settings(), 'save' ] );
+
+		add_action( 'wp-simple-notify-settings-end', [ $obj, 'handle_settings_script' ] );
 	}
 
 
-	public function run() {
-
+	public function handle_settings_script() {
+		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 	}
 
 	public function manage_assets() {
