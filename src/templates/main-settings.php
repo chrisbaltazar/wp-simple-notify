@@ -5,8 +5,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="jumbotron jumbotron-fluid p-m">
-                    <div class="container-fluid">
-                        <h1 class="display-6">WP Simple Notify Settings</h1>
+                    <div class="container-fluid text-center">
+                        <h1 class="display-4">WP Simple Notify Settings</h1>
                         <p class="lead">Here you can configure all the options available for this plugin.</p>
                     </div>
                 </div>
@@ -14,18 +14,54 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <h4><span class="badge badge-primary">Email options</span></h4>
+                <h3 class=""><span class="badge badge-primary">Email options</span></h3>
                 <form>
                     <div class="form-group">
                         <label>Email address from:</label>
-                        <input type="email" class="form-control" placeholder="@" v-model="config.from"
+                        <input type="email" class="form-control" placeholder="@" v-model="config.email_from"
                                required>
                     </div>
                     <div class="form-group">
                         <label>Email password:</label>
-                        <input type="password" class="form-control" placeholder="***" v-model="config.pwd"
+                        <input type="password" class="form-control" placeholder="*" v-model="config.email_pwd"
                                required>
                     </div>
+                    <div class="form-group">
+                        <label>Sender name:</label>
+                        <input type="text" class="form-control" placeholder="name" v-model="config.sender"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label>SMTP Host:</label>
+                        <input type="url" class="form-control" placeholder="smtp.yourdomain.com" v-model="config.host"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label>Port Number:</label>
+                        <input type="number" class="form-control" plpasswordaceholder="port" v-model="config.port"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label>Connection security:</label>
+                        <select class="form-control" v-model="config.secure" required>
+                            <option v-for="s in security" :selected="s==config.secure">{{s}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Use custom SMTP credentials
+                            <input type="checkbox" v-model="customSmtp" value="1">
+                        </label>
+                    </div>
+                    <div class="form-group" v-if="customSmtp">
+                        <label>SMTP User:</label>
+                        <input type="text" class="form-control" placeholder="user" v-model="config.smtp_user" required>
+                    </div>
+                    <div class="form-group" v-if="customSmtp">
+                        <label>SMTP password:</label>
+                        <input type="password" class="form-control" placeholder="password" v-model="config.smtp_pwd"
+                               required>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg">Save</button>
                 </form>
             </div>
         </div>

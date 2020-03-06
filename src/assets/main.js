@@ -5,8 +5,11 @@ new Vue({
         emulateHTTP: true
     },
     data: {
-        config: {}
+        config: {},
+        customSmtp: 0,
+        security: ['ssl', 'tls']
     },
+    computed: {},
     methods: {},
     created() {
 
