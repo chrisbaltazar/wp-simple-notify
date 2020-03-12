@@ -6,11 +6,18 @@ new Vue({
     },
     data: {
         config: {},
-        customSmtp: 0,
-        security: ['ssl', 'tls']
+        customSmtp: false,
+        security: ['ssl', 'tls'],
+        options: wsnOptions
     },
     computed: {},
     methods: {},
+    watch: {
+        customSmtp: function () {
+            this.config.smtp_user = '';
+            this.config.smtp_pwd = '';
+        }
+    },
     created() {
 
     }

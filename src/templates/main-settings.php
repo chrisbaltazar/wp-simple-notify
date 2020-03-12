@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <h3 class=""><span class="badge badge-primary">Email options</span></h3>
+                <h3 class=""><span class="badge badge-primary">Email config</span></h3>
                 <form>
                     <div class="form-group">
                         <label>Email address from:</label>
@@ -61,8 +61,15 @@
                         <input type="password" class="form-control" placeholder="password" v-model="config.smtp_pwd"
                                required>
                     </div>
-                    <button type="submit" class="btn btn-success btn-lg">Save</button>
+                    <button type="submit" class="float-right btn btn-success btn-lg mb-x">Save configuration</button>
                 </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3 class=""><span class="badge badge-warning">Plugin options</span></h3>
+
             </div>
         </div>
 
