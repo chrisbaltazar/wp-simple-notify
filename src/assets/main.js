@@ -9,7 +9,9 @@ new Vue({
         customSmtp: false,
         security: ['ssl', 'tls'],
         options: wsnOptions,
-        endpoint: wsnEndpoint
+        endpoint: wsnEndpoint,
+        errorMsg: '',
+        successMsg: ''
     },
     filters: {
         status_label: function (value) {
@@ -22,10 +24,27 @@ new Vue({
             return value ? 'badge-info' : 'badge-light';
         },
     },
-    computed: {},
+    computed: {
+        messageClass() {
+            if (this.successMsg)
+                return 'alert-success';
+
+            if (this.errorMsg)
+                return 'alert-danger';
+
+            return '';
+        }
+    },
     methods: {
         save() {
-            this.$http.post('')
+            this.$http.post(this.endpoint).then(
+                response => {
+                    this.successMsg = 'Settings saved successfully';
+                },
+                error => {
+                    this.errorMsg = 'There was an error saving the settings, please try again. ' + error;
+                }
+            )
         }
     },
     watch: {

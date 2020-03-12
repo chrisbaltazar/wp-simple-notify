@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-12">
                 <h3 class=""><span class="badge badge-primary">Email config</span></h3>
-                <form @submit = "save">
+                <form @submit="save">
                     <div class="form-group">
                         <label>Email address from:</label>
                         <input type="email" class="form-control" placeholder="@" v-model="config.email_from"
@@ -61,19 +61,30 @@
                         <input type="password" class="form-control" placeholder="password" v-model="config.smtp_pwd"
                                required>
                     </div>
+
                     <button type="submit" class="float-right btn btn-success btn-lg mb-x">Save configuration</button>
                 </form>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-dismissible my-3 fade show" :class="messageClass" v-if="messageClass"
+                     role="alert">
+                    <strong>{{successMsg || errorMsg}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <h3 class=""><span class="badge badge-warning">Plugin options</span></h3>
                 <div class="list-group mt-5">
                     <span href="" class="list-group-item list-group-item-action" v-for="option in options">
                         <label>{{option.text}}</label>
-                        <button class="btn float-right my-m mx-m" :class = "option.active | status_button">{{ option.active | status_label }}</button>
-                        <span class="badge badge-pill float-right my-2 mx-4" :class = "option.active | status_badge">{{ option.active ? 'ON' : 'OFF' }}</span>
+                        <button class="btn float-right my-m mx-m" :class="option.active | status_button">{{ option.active | status_label }}</button>
+                        <span class="badge badge-pill float-right my-2 mx-4" :class="option.active | status_badge">{{ option.active ? 'ON' : 'OFF' }}</span>
                     </span>
                 </div>
             </div>
