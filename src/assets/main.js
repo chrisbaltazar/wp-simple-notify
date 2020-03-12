@@ -5,7 +5,9 @@ new Vue({
         emulateHTTP: true
     },
     data: {
-        config: {},
+        config: {
+            action: wsnEndpoint.action
+        },
         customSmtp: false,
         security: ['ssl', 'tls'],
         options: wsnOptions,
@@ -37,7 +39,9 @@ new Vue({
     },
     methods: {
         save() {
-            this.$http.post(this.endpoint).then(
+            this.successMsg = '';
+            this.errorMsg = '';
+            this.$http.post(this.endpoint.save, this.config).then(
                 response => {
                     this.successMsg = 'Settings saved successfully';
                 },

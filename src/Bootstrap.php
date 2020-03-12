@@ -2,6 +2,7 @@
 
 namespace SimpleNotify;
 
+
 class Bootstrap {
 
 	const PLUGIN_NAME = 'wp-simple-notify';
@@ -14,17 +15,30 @@ class Bootstrap {
 	];
 
 	const POST_DATA_ACTION = 'wp_simple_notify_settings';
+	/**
+	 * @var Settings
+	 */
+	public $settings;
+
+	/**
+	 * Bootstrap constructor.
+	 *
+	 * @param Settings $settings
+	 */
+	public function __construct( Settings $settings ) {
+		$this->settings = $settings;
+	}
 
 	public static function init() {
-		$obj = new self;
+		$obj = new self( new Settings() );
 
 		add_action( 'admin_enqueue_scripts', [ $obj, 'manage_assets' ] );
 
 		add_action( 'admin_menu', [ $obj, 'set_admin_menu' ] );
 
-		add_action( 'admin_post_' . self::POST_DATA_ACTION, [ new Settings(), 'save' ] );
-
 		add_action( 'wp-simple-notify-settings-end', [ $obj, 'handle_settings_script' ] );
+
+		add_action( 'rest_api_init', [ $obj->settings, 'register_rest_route' ] );
 	}
 
 
@@ -32,7 +46,9 @@ class Bootstrap {
 		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 
 		wp_localize_script( 'main-app', 'wsnOptions', $this->get_script_data() );
-		wp_localize_script( 'main-app', 'wsnEndpoint', admin_url( 'admin-post.php' ) );
+		wp_localize_script( 'main-app', 'wsnEndpoint', [
+			'save' => $this->settings->get_endpoint( Settings::ENDPOINT_SAVE_CONFIG ),
+		] );
 	}
 
 	public function manage_assets() {
