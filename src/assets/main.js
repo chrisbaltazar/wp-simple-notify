@@ -10,6 +10,17 @@ new Vue({
         security: ['ssl', 'tls'],
         options: wsnOptions
     },
+    filters: {
+        status_label: function (value) {
+            return value ? 'Deactivate' : 'Activate';
+        },
+        status_button: function (value) {
+            return value ? 'btn-danger' : 'btn-primary';
+        },
+        status_badge: function (value) {
+            return value ? 'badge-info' : 'badge-light';
+        },
+    },
     computed: {},
     methods: {},
     watch: {

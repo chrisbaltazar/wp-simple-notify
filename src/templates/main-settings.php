@@ -43,7 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label>Connection security:</label>
-                        <select class="form-control" v-model="config.secure" required>
+                        <select class="form-control text-uppercase" v-model="config.secure" required>
                             <option v-for="s in security" :selected="s==config.secure">{{s}}</option>
                         </select>
                     </div>
@@ -69,7 +69,13 @@
         <div class="row">
             <div class="col-12">
                 <h3 class=""><span class="badge badge-warning">Plugin options</span></h3>
-
+                <div class="list-group mt-5">
+                    <span href="" class="list-group-item list-group-item-action" v-for="option in options">
+                        <label>{{option.text}}</label>
+                        <button class="btn float-right my-m mx-m" :class = "option.active | status_button">{{ option.active | status_label }}</button>
+                        <span class="badge badge-pill float-right my-2 mx-4" :class = "option.active | status_badge">{{ option.active ? 'ON' : 'OFF' }}</span>
+                    </span>
+                </div>
             </div>
         </div>
 
