@@ -32,6 +32,7 @@ class Bootstrap {
 		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 
 		wp_localize_script( 'main-app', 'wsnOptions', $this->get_script_data() );
+		wp_localize_script( 'main-app', 'wsnEndpoint', admin_url( 'admin-post.php' ) );
 	}
 
 	public function manage_assets() {

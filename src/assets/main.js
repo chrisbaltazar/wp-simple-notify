@@ -8,7 +8,8 @@ new Vue({
         config: {},
         customSmtp: false,
         security: ['ssl', 'tls'],
-        options: wsnOptions
+        options: wsnOptions,
+        endpoint: wsnEndpoint
     },
     filters: {
         status_label: function (value) {
@@ -22,7 +23,11 @@ new Vue({
         },
     },
     computed: {},
-    methods: {},
+    methods: {
+        save() {
+            this.$http.post('')
+        }
+    },
     watch: {
         customSmtp: function () {
             this.config.smtp_user = '';

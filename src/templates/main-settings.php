@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-12">
                 <h3 class=""><span class="badge badge-primary">Email config</span></h3>
-                <form>
+                <form @submit = "save">
                     <div class="form-group">
                         <label>Email address from:</label>
                         <input type="email" class="form-control" placeholder="@" v-model="config.email_from"
