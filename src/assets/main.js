@@ -5,12 +5,10 @@ new Vue({
         emulateHTTP: true
     },
     data: {
-        config: {
-            action: wsnEndpoint.action
-        },
+        config: wsnConfig,
         customSmtp: false,
         security: ['ssl', 'tls'],
-        options: wsnOptions,
+        actions: wsnActions,
         endpoint: wsnEndpoint,
         errorMsg: '',
         successMsg: ''

@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label>SMTP Host:</label>
-                        <input type="url" class="form-control" placeholder="smtp.yourdomain.com" v-model="config.host"
+                        <input type="text" class="form-control" placeholder="smtp.yourdomain.com" v-model="config.host"
                                required>
                     </div>
                     <div class="form-group">
@@ -79,12 +79,12 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <h3 class=""><span class="badge badge-warning">Plugin options</span></h3>
+                <h3 class=""><span class="badge badge-warning">Plugin actions</span></h3>
                 <div class="list-group mt-5">
-                    <span href="" class="list-group-item list-group-item-action" v-for="option in options">
-                        <label>{{option.text}}</label>
-                        <button class="btn float-right my-m mx-m" :class="option.active | status_button">{{ option.active | status_label }}</button>
-                        <span class="badge badge-pill float-right my-2 mx-4" :class="option.active | status_badge">{{ option.active ? 'ON' : 'OFF' }}</span>
+                    <span href="" class="list-group-item list-group-item-action" v-for="action in actions">
+                        <label>{{action.text}}</label>
+                        <button class="btn float-right my-m mx-m" :class="action.active | status_button">{{ action.active | status_label }}</button>
+                        <span class="badge badge-pill float-right my-2 mx-4" :class="action.active | status_badge">{{ action.active ? 'ON' : 'OFF' }}</span>
                     </span>
                 </div>
             </div>

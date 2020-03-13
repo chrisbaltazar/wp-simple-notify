@@ -14,11 +14,10 @@ class Bootstrap {
 		'comment_for_user'   => 'Notify new replies to visitor',
 	];
 
-	const POST_DATA_ACTION = 'wp_simple_notify_settings';
 	/**
 	 * @var Settings
 	 */
-	public $settings;
+	private $settings;
 
 	/**
 	 * Bootstrap constructor.
@@ -30,22 +29,22 @@ class Bootstrap {
 	}
 
 	public static function init() {
-		$obj = new self( new Settings() );
+		$obj = new self( Settings::init() );
 
 		add_action( 'admin_enqueue_scripts', [ $obj, 'manage_assets' ] );
 
 		add_action( 'admin_menu', [ $obj, 'set_admin_menu' ] );
 
-		add_action( 'wp-simple-notify-settings-end', [ $obj, 'handle_settings_script' ] );
+		add_action( 'wp-simple-notify-settings-end', [ $obj, 'handle_main_app' ] );
 
-		add_action( 'rest_api_init', [ $obj->settings, 'register_rest_route' ] );
 	}
 
 
-	public function handle_settings_script() {
+	public function handle_main_app() {
 		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 
-		wp_localize_script( 'main-app', 'wsnOptions', $this->get_script_data() );
+		wp_localize_script( 'main-app', 'wsnConfig', $this->settings->get_config() );
+		wp_localize_script( 'main-app', 'wsnActions', $this->build_action_data() );
 		wp_localize_script( 'main-app', 'wsnEndpoint', [
 			'save' => $this->settings->get_endpoint( Settings::ENDPOINT_SAVE_CONFIG ),
 		] );
@@ -85,7 +84,7 @@ class Bootstrap {
 		return strpos( $screen->id, self::MENU_SLUG ) !== false;
 	}
 
-	private function get_script_data() {
+	private function build_action_data() {
 		$data = [];
 		foreach ( self::PLUGIN_OPTIONS as $option => $descripion ) {
 			$data[] = [
