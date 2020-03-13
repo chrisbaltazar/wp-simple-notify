@@ -69,7 +69,7 @@ class Settings {
 			$data[] = [
 				'key'    => $action,
 				'text'   => $description,
-				'active' => false
+				'active' => $this->stored_data['actions'][ $action ]['active'] ?? 0
 			];
 		}
 
@@ -132,7 +132,7 @@ class Settings {
 		$status = ! (bool) $params['active'];
 
 		return [
-			$params['key'] => [ 'active' => $status ]
+			$params['key'] => [ 'active' => $status ? 1 : 0 ]
 		];
 	}
 }
