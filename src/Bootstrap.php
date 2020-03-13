@@ -37,8 +37,8 @@ class Bootstrap {
 	public function handle_main_app() {
 		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 
-		wp_localize_script( 'main-app', 'wsnConfig', $this->settings->get_config() );
-		wp_localize_script( 'main-app', 'wsnActions', $this->settings->get_actions() );
+		wp_localize_script( 'main-app', 'wsnConfig', $this->settings->get_config() ?: (object) [] );
+		wp_localize_script( 'main-app', 'wsnActions', $this->settings->get_actions() ?: (object) [] );
 		wp_localize_script( 'main-app', 'wsnEndpoint', [
 			'save'   => $this->settings->get_endpoint( Settings::ENDPOINT_SAVE_CONFIG ),
 			'action' => $this->settings->get_endpoint( Settings::ENDPOINT_SET_ACTION ),

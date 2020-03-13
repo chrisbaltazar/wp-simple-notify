@@ -47,6 +47,12 @@ class Settings {
 				'methods'  => 'POST',
 				'callback' => [ $this, 'save' ],
 			] );
+
+		register_rest_route( Bootstrap::PLUGIN_NAME, self::ENDPOINT_SET_ACTION,
+			[
+				'methods'  => 'POST',
+				'callback' => [ $this, 'set_action' ],
+			] );
 	}
 
 	public function get_endpoint( string $path = '' ): string {
@@ -70,8 +76,8 @@ class Settings {
 		return $data;
 	}
 
-	public function save() {
-		$request_data = $this->get_request_data();
+	public function save( \WP_REST_Request $request ) {
+		$request_data = $this->get_request_data( $request->get_body_params() );
 
 		if ( empty( $request_data ) ) {
 			return new \WP_REST_Response( 'Please check again your entries and try again.', 500 );
@@ -82,14 +88,14 @@ class Settings {
 		return new \WP_REST_Response( 'Settings successfully saved!' );
 	}
 
-	private function get_request_data(): array {
+	private function get_request_data( array $request ): array {
 		$config = [
-			'email_from' => sanitize_email( $_POST['email_from'] ),
-			'email_pwd'  => sanitize_text_field( $_POST['email_pwd'] ),
-			'sender'     => sanitize_text_field( $_POST['sender'] ),
-			'host'       => esc_url_raw( $_POST['host'] ),
-			'port'       => sanitize_text_field( $_POST['port'] ),
-			'secure'     => sanitize_text_field( $_POST['secure'] ),
+			'email_from' => sanitize_email( $request['email_from'] ),
+			'email_pwd'  => sanitize_text_field( $request['email_pwd'] ),
+			'sender'     => sanitize_text_field( $request['sender'] ),
+			'host'       => esc_url_raw( $request['host'] ),
+			'port'       => sanitize_text_field( $request['port'] ),
+			'secure'     => sanitize_text_field( $request['secure'] ),
 		];
 
 		foreach ( $config as $key => $value ) {
@@ -98,9 +104,13 @@ class Settings {
 			}
 		}
 
-		$config['smtp_user'] = sanitize_text_field( $_POST['smtp_user'] );
-		$config['smtp_pwd']  = sanitize_text_field( $_POST['smtp_pwd'] );
+		$config['smtp_user'] = sanitize_text_field( $request['smtp_user'] );
+		$config['smtp_pwd']  = sanitize_text_field( $request['smtp_pwd'] );
 
 		return $config;
+	}
+
+	public function set_action( \WP_REST_Request $request ) {
+
 	}
 }
