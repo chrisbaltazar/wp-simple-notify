@@ -51,7 +51,7 @@ class Settings {
 		register_rest_route( Bootstrap::PLUGIN_NAME, self::ENDPOINT_SET_ACTION,
 			[
 				'methods'  => 'POST',
-				'callback' => [ $this, 'set_action' ],
+				'callback' => [ $this, 'switch' ],
 			] );
 	}
 
@@ -88,14 +88,14 @@ class Settings {
 		return new \WP_REST_Response( 'Settings successfully saved!' );
 	}
 
-	private function get_request_data( array $request ): array {
+	private function get_request_data( array $params ): array {
 		$config = [
-			'email_from' => sanitize_email( $request['email_from'] ),
-			'email_pwd'  => sanitize_text_field( $request['email_pwd'] ),
-			'sender'     => sanitize_text_field( $request['sender'] ),
-			'host'       => esc_url_raw( $request['host'] ),
-			'port'       => sanitize_text_field( $request['port'] ),
-			'secure'     => sanitize_text_field( $request['secure'] ),
+			'email_from' => sanitize_email( $params['email_from'] ),
+			'email_pwd'  => sanitize_text_field( $params['email_pwd'] ),
+			'sender'     => sanitize_text_field( $params['sender'] ),
+			'host'       => esc_url_raw( $params['host'] ),
+			'port'       => sanitize_text_field( $params['port'] ),
+			'secure'     => sanitize_text_field( $params['secure'] ),
 		];
 
 		foreach ( $config as $key => $value ) {
@@ -104,13 +104,35 @@ class Settings {
 			}
 		}
 
-		$config['smtp_user'] = sanitize_text_field( $request['smtp_user'] );
-		$config['smtp_pwd']  = sanitize_text_field( $request['smtp_pwd'] );
+		$config['smtp_user'] = sanitize_text_field( $params['smtp_user'] );
+		$config['smtp_pwd']  = sanitize_text_field( $params['smtp_pwd'] );
 
 		return $config;
 	}
 
-	public function set_action( \WP_REST_Request $request ) {
+	public function switch( \WP_REST_Request $request ) {
+		$action = $this->validate_action( $request->get_body_params() );
 
+		if ( empty( $action ) ) {
+			return new \WP_REST_Response( 'There was an error saving your request.', 500 );
+		}
+
+		$data = array_merge( $this->stored_data['actions'], $action );
+
+		update_option( self::OPTION_ACTION_NAME, $data );
+
+		return new \WP_REST_Response( 'Action updated successfully!' );
+	}
+
+	private function validate_action( array $params ): array {
+		if ( ! isset( self::PLUGIN_ACTIONS[ $params['key'] ] ) ) {
+			return [];
+		}
+
+		$status = ! (bool) $params['active'];
+
+		return [
+			$params['key'] => [ 'active' => $status ]
+		];
 	}
 }
