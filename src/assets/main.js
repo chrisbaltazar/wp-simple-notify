@@ -63,11 +63,12 @@ new Vue({
     },
     watch: {
         customSmtp: function () {
-            this.config.smtp_user = '';
-            this.config.smtp_pwd = '';
+            delete this.config.smtp_user;
+            delete this.config.smtp_pwd;
         }
     },
     created() {
-
+        this.customSmtp = this.config.smtp_user && this.config.smtp_pwd;
+        f
     }
 })

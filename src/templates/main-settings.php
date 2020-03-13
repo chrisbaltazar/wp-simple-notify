@@ -52,7 +52,7 @@
                             <input type="checkbox" v-model="customSmtp" value="1">
                         </label>
                     </div>
-                    <div class="form-group" v-if="customSmtp">
+                    <div class="form-group" v-show="customSmtp">
                         <label>SMTP User:</label>
                         <input type="text" class="form-control" placeholder="user" v-model="config.smtp_user" required>
                     </div>

@@ -15,8 +15,8 @@ class Settings {
 	const OPTION_ACTION_NAME = Bootstrap::PLUGIN_NAME . '-actions';
 
 	const PLUGIN_ACTIONS = [
-		'comment_for_author' => 'Notify new comments to post autor',
-		'comment_for_user'   => 'Notify new replies to visitor',
+		'comment_for_author' => 'Notify new comments to post author',
+		'comment_for_user'   => 'Notify new replies to visitor\'s comments',
 	];
 	/**
 	 * @var array
