@@ -9,11 +9,6 @@ class Bootstrap {
 
 	const MENU_SLUG = 'wp-simple-notify-admin';
 
-	const PLUGIN_OPTIONS = [
-		'comment_for_author' => 'Notify new comments to post autor',
-		'comment_for_user'   => 'Notify new replies to visitor',
-	];
-
 	/**
 	 * @var Settings
 	 */
@@ -44,7 +39,7 @@ class Bootstrap {
 		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 
 		wp_localize_script( 'main-app', 'wsnConfig', $this->settings->get_config() );
-		wp_localize_script( 'main-app', 'wsnActions', $this->build_action_data() );
+		wp_localize_script( 'main-app', 'wsnActions', $this->settings->get_action_data() );
 		wp_localize_script( 'main-app', 'wsnEndpoint', [
 			'save' => $this->settings->get_endpoint( Settings::ENDPOINT_SAVE_CONFIG ),
 		] );
@@ -82,18 +77,5 @@ class Bootstrap {
 		$screen = get_current_screen();
 
 		return strpos( $screen->id, self::MENU_SLUG ) !== false;
-	}
-
-	private function build_action_data() {
-		$data = [];
-		foreach ( self::PLUGIN_OPTIONS as $option => $descripion ) {
-			$data[] = [
-				'key'    => $option,
-				'text'   => $descripion,
-				'active' => 0
-			];
-		}
-
-		return $data;
 	}
 }

@@ -11,6 +11,11 @@ class Settings {
 	const OPTION_CONFIG_NAME = Bootstrap::PLUGIN_NAME . '-config';
 
 	const OPTION_ACTION_NAME = Bootstrap::PLUGIN_NAME . '-actions';
+
+	const PLUGIN_ACTIONS = [
+		'comment_for_author' => 'Notify new comments to post autor',
+		'comment_for_user'   => 'Notify new replies to visitor',
+	];
 	/**
 	 * @var array
 	 */
@@ -86,5 +91,18 @@ class Settings {
 		$config['smtp_pwd']  = sanitize_text_field( $_POST['smtp_pwd'] );
 
 		return $config;
+	}
+
+	public function get_action_data() {
+		$data = [];
+		foreach ( self::PLUGIN_ACTIONS as $action => $description ) {
+			$data[] = [
+				'key'    => $action,
+				'text'   => $description,
+				'active' => false
+			];
+		}
+
+		return $data;
 	}
 }
