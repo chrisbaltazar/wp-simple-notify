@@ -8,6 +8,8 @@ class Settings {
 
 	const ENDPOINT_SAVE_CONFIG = '/save';
 
+	const ENDPOINT_SET_ACTION = '/action';
+
 	const OPTION_CONFIG_NAME = Bootstrap::PLUGIN_NAME . '-config';
 
 	const OPTION_ACTION_NAME = Bootstrap::PLUGIN_NAME . '-actions';
@@ -27,7 +29,7 @@ class Settings {
 	public function __construct() {
 		$this->stored_data = [
 			'config'  => get_option( self::OPTION_CONFIG_NAME, [] ),
-			'options' => get_option( self::OPTION_ACTION_NAME, [] ),
+			'actions' => get_option( self::OPTION_ACTION_NAME, [] ),
 		];
 	}
 
@@ -55,8 +57,17 @@ class Settings {
 		return $this->stored_data['config'];
 	}
 
-	public function get_options(): array {
-		return $this->stored_data['options'];
+	public function get_actions() {
+		$data = [];
+		foreach ( self::PLUGIN_ACTIONS as $action => $description ) {
+			$data[] = [
+				'key'    => $action,
+				'text'   => $description,
+				'active' => false
+			];
+		}
+
+		return $data;
 	}
 
 	public function save() {
@@ -91,18 +102,5 @@ class Settings {
 		$config['smtp_pwd']  = sanitize_text_field( $_POST['smtp_pwd'] );
 
 		return $config;
-	}
-
-	public function get_action_data() {
-		$data = [];
-		foreach ( self::PLUGIN_ACTIONS as $action => $description ) {
-			$data[] = [
-				'key'    => $action,
-				'text'   => $description,
-				'active' => false
-			];
-		}
-
-		return $data;
 	}
 }

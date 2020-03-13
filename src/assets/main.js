@@ -44,7 +44,19 @@ new Vue({
                     this.successMsg = 'Settings saved successfully';
                 },
                 error => {
-                    this.errorMsg = 'There was an error saving the settings, please try again. ' + error;
+                    this.errorMsg = 'There was an error saving the settings, please try again. ' + error.message;
+                }
+            )
+        },
+        set(action) {
+            this.$http.post(this.endpoint.action, action).then(
+                response => {
+                    this.actions.filter(a => {
+                        return a.key === action.key;
+                    }).active = !action.active;
+                },
+                error => {
+                    alert(error.message);
                 }
             )
         }

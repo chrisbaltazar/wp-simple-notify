@@ -31,7 +31,6 @@ class Bootstrap {
 		add_action( 'admin_menu', [ $obj, 'set_admin_menu' ] );
 
 		add_action( 'wp-simple-notify-settings-end', [ $obj, 'handle_main_app' ] );
-
 	}
 
 
@@ -39,9 +38,10 @@ class Bootstrap {
 		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 
 		wp_localize_script( 'main-app', 'wsnConfig', $this->settings->get_config() );
-		wp_localize_script( 'main-app', 'wsnActions', $this->settings->get_action_data() );
+		wp_localize_script( 'main-app', 'wsnActions', $this->settings->get_actions() );
 		wp_localize_script( 'main-app', 'wsnEndpoint', [
-			'save' => $this->settings->get_endpoint( Settings::ENDPOINT_SAVE_CONFIG ),
+			'save'   => $this->settings->get_endpoint( Settings::ENDPOINT_SAVE_CONFIG ),
+			'action' => $this->settings->get_endpoint( Settings::ENDPOINT_SET_ACTION ),
 		] );
 	}
 

@@ -83,7 +83,7 @@
                 <div class="list-group mt-5">
                     <span href="" class="list-group-item list-group-item-action" v-for="action in actions">
                         <label>{{action.text}}</label>
-                        <button class="btn float-right my-m mx-m" :class="action.active | status_button">{{ action.active | status_label }}</button>
+                        <button class="btn float-right my-m mx-m" :class="action.active | status_button" @click="set(action)">{{ action.active | status_label }}</button>
                         <span class="badge badge-pill float-right my-2 mx-4" :class="action.active | status_badge">{{ action.active ? 'ON' : 'OFF' }}</span>
                     </span>
                 </div>
