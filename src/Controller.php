@@ -20,19 +20,19 @@ class Controller {
 	}
 
 	public function run() {
-		foreach ( Settings::PLUGIN_ACTIONS as $action ) {
-			if ( ! $this->is_active( $action ) ) {
+		foreach ( array_keys( Settings::PLUGIN_ACTIONS ) as $action_key ) {
+			if ( ! $this->is_active( $action_key ) ) {
 				continue;
 			}
-
-			switch ( $action ) {
+			var_dump($action_key);
+			switch ( $action_key ) {
 				case 'comment_for_author':
 					add_action( 'comment_post', [ $this, 'notify_comment_authot' ], 10, 3 );
-					die($action);
+//					die($action_key);
 					break;
 				case 'comment_for_user':
 					add_action( 'comment_post', [ $this, 'notify_comment_user' ], 10, 3 );
-					die($action);
+					die( $action_key );
 					break;
 			}
 		}
@@ -51,10 +51,12 @@ class Controller {
 	}
 
 	public function notify_comment_authot( $comment_ID, $comment_approved, $commentdata ) {
-		var_dump($commentdata); die;
+		var_dump( $commentdata );
+		die;
 	}
 
 	public function notify_comment_user( $comment_ID, $comment_approved, $commentdata ) {
-		var_dump($commentdata); die;
+		var_dump( $commentdata );
+		die;
 	}
 }

@@ -48,17 +48,23 @@ new Vue({
                 }
             )
         },
-        set(action) {
+        set(index, action) {
             this.$http.post(this.endpoint.action, action).then(
                 response => {
-                    this.actions.filter(a => {
-                        return a.key === action.key;
-                    }).active = !action.active;
+                    this.update(index, action);
                 },
                 error => {
                     alert(error.message);
                 }
             )
+        },
+        update(index, current_action) {
+            let finder = this.actions.filter(a => {
+                return a.key === current_action.key;
+            }).shift();
+
+            finder.active = !current_action.active;
+            this.actions.splice(index, 1, finder);
         }
     },
     watch: {

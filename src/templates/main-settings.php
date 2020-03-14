@@ -82,10 +82,10 @@
             <div class="col-12">
                 <h3 class=""><span class="badge badge-warning">Plugin actions</span></h3>
                 <div class="list-group mt-5">
-                    <span href="" class="list-group-item list-group-item-action" v-for="action in actions">
+                    <span href="" class="list-group-item list-group-item-action" v-for="(action, index) in actions">
                         <label>{{action.text}}</label>
                         <button class="btn float-right my-m mx-m" :class="action.active | status_button"
-                                @click="set(action)">{{ action.active | status_label }}</button>
+                                @click="set(index, action)">{{ action.active | status_label }}</button>
                         <span class="badge badge-pill float-right my-2 mx-4" :class="action.active | status_badge">{{ action.active ? 'ON' : 'OFF' }}</span>
                     </span>
                 </div>
