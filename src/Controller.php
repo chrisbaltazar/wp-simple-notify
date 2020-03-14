@@ -24,15 +24,13 @@ class Controller {
 			if ( ! $this->is_active( $action_key ) ) {
 				continue;
 			}
-			var_dump($action_key);
+
 			switch ( $action_key ) {
 				case 'comment_for_author':
 					add_action( 'comment_post', [ $this, 'notify_comment_authot' ], 10, 3 );
-//					die($action_key);
 					break;
 				case 'comment_for_user':
 					add_action( 'comment_post', [ $this, 'notify_comment_user' ], 10, 3 );
-					die( $action_key );
 					break;
 			}
 		}
@@ -40,14 +38,10 @@ class Controller {
 
 	private function is_active( string $action ): bool {
 		$finder = array_filter( $this->settings->get_actions(), function ( $item ) use ( $action ) {
-			return $item['key'] === $action;
+			return $item['key'] === $action && $item['active'];
 		} );
 
-		if ( empty( $finder ) ) {
-			return false;
-		}
-
-		return (bool) $finder[0]['active'];
+		return ! empty( $finder );
 	}
 
 	public function notify_comment_authot( $comment_ID, $comment_approved, $commentdata ) {
