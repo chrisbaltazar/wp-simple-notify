@@ -44,7 +44,7 @@ new Vue({
                     this.successMsg = 'Settings saved successfully';
                 },
                 error => {
-                    this.errorMsg = 'There was an error saving the settings, please try again. ' + error.message;
+                    this.errorMsg = 'There was an error saving the settings, please try again. ' + error.body || error;
                 }
             )
         },
@@ -69,6 +69,5 @@ new Vue({
     },
     created() {
         this.customSmtp = this.config.smtp_user && this.config.smtp_pwd;
-        f
     }
 })

@@ -3,8 +3,15 @@
 namespace SimpleNotify;
 
 
+/**
+ * Class Bootstrap
+ * @package SimpleNotify
+ */
 class Bootstrap {
 
+	/**
+	 *
+	 */
 	const PLUGIN_NAME = 'wp-simple-notify';
 
 	const MENU_SLUG = 'wp-simple-notify-admin';
@@ -13,6 +20,10 @@ class Bootstrap {
 	 * @var Settings
 	 */
 	private $settings;
+	/**
+	 * @var Controller
+	 */
+	private $controller;
 
 	/**
 	 * Bootstrap constructor.
@@ -20,9 +31,14 @@ class Bootstrap {
 	 * @param Settings $settings
 	 */
 	public function __construct( Settings $settings ) {
-		$this->settings = $settings;
+		$this->settings   = $settings;
+		$this->controller = new Controller( $settings );
+		$this->controller->run();
 	}
 
+	/**
+	 *
+	 */
 	public static function init() {
 		$obj = new self( Settings::init() );
 
@@ -34,6 +50,9 @@ class Bootstrap {
 	}
 
 
+	/**
+	 *
+	 */
 	public function handle_main_app() {
 		wp_enqueue_script( 'main-app', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/main.js', [ 'vue-resource' ] );
 
@@ -45,6 +64,9 @@ class Bootstrap {
 		] );
 	}
 
+	/**
+	 *
+	 */
 	public function manage_assets() {
 		if ( ! $this->is_plugin_page() ) {
 			return;
@@ -56,20 +78,10 @@ class Bootstrap {
 		wp_enqueue_script( 'vue-resource', 'https://cdn.jsdelivr.net/npm/vue-resource@1.5.1', [ 'vue-js' ] );
 	}
 
-	public function set_admin_menu() {
-		add_submenu_page(
-			'options-general.php',
-			'WP Simple Notify Settings',
-			'WP Simple Notify',
-			'manage_options',
-			self::MENU_SLUG,
-			function () {
-				include __DIR__ . '/templates/main-settings.php';
-			}
-		);
-	}
-
-	public function is_plugin_page() {
+	/**
+	 * @return bool
+	 */
+	public function is_plugin_page(): bool {
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return false;
 		}

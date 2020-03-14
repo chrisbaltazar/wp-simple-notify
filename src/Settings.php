@@ -4,16 +4,35 @@
 namespace SimpleNotify;
 
 
+/**
+ * Class Settings
+ * @package SimpleNotify
+ */
 class Settings {
 
+	/**
+	 *
+	 */
 	const ENDPOINT_SAVE_CONFIG = '/save';
 
+	/**
+	 *
+	 */
 	const ENDPOINT_SET_ACTION = '/action';
 
+	/**
+	 *
+	 */
 	const OPTION_CONFIG_NAME = Bootstrap::PLUGIN_NAME . '-config';
 
+	/**
+	 *
+	 */
 	const OPTION_ACTION_NAME = Bootstrap::PLUGIN_NAME . '-actions';
 
+	/**
+	 *
+	 */
 	const PLUGIN_ACTIONS = [
 		'comment_for_author' => 'Notify new comments to post author',
 		'comment_for_user'   => 'Notify new replies to visitor\'s comments',
@@ -33,6 +52,9 @@ class Settings {
 		];
 	}
 
+	/**
+	 * @return Settings
+	 */
 	public static function init() {
 		$obj = new self();
 
@@ -41,6 +63,9 @@ class Settings {
 		return $obj;
 	}
 
+	/**
+	 *
+	 */
 	public function register_rest_route() {
 		register_rest_route( Bootstrap::PLUGIN_NAME, self::ENDPOINT_SAVE_CONFIG,
 			[
@@ -55,14 +80,25 @@ class Settings {
 			] );
 	}
 
+	/**
+	 * @param string $path
+	 *
+	 * @return string
+	 */
 	public function get_endpoint( string $path = '' ): string {
 		return '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( $path, '/' );
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_config(): array {
 		return $this->stored_data['config'];
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_actions() {
 		$data = [];
 		foreach ( self::PLUGIN_ACTIONS as $action => $description ) {
@@ -76,6 +112,11 @@ class Settings {
 		return $data;
 	}
 
+	/**
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Response
+	 */
 	public function save( \WP_REST_Request $request ) {
 		$request_data = $this->get_request_data( $request->get_body_params() );
 
@@ -88,6 +129,11 @@ class Settings {
 		return new \WP_REST_Response( 'Settings successfully saved!' );
 	}
 
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 */
 	private function get_request_data( array $params ): array {
 		$config = [
 			'email_from' => sanitize_email( $params['email_from'] ),
@@ -110,6 +156,11 @@ class Settings {
 		return $config;
 	}
 
+	/**
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Response
+	 */
 	public function switch( \WP_REST_Request $request ) {
 		$action = $this->validate_action( $request->get_body_params() );
 
@@ -124,6 +175,11 @@ class Settings {
 		return new \WP_REST_Response( 'Action updated successfully!' );
 	}
 
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 */
 	private function validate_action( array $params ): array {
 		if ( ! isset( self::PLUGIN_ACTIONS[ $params['key'] ] ) ) {
 			return [];
