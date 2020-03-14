@@ -28,9 +28,11 @@ class Controller {
 			switch ( $action ) {
 				case 'comment_for_author':
 					add_action( 'comment_post', [ $this, 'notify_comment_authot' ], 10, 3 );
+					die($action);
 					break;
 				case 'comment_for_user':
 					add_action( 'comment_post', [ $this, 'notify_comment_user' ], 10, 3 );
+					die($action);
 					break;
 			}
 		}
@@ -49,10 +51,10 @@ class Controller {
 	}
 
 	public function notify_comment_authot( $comment_ID, $comment_approved, $commentdata ) {
-
+		var_dump($commentdata); die;
 	}
 
 	public function notify_comment_user( $comment_ID, $comment_approved, $commentdata ) {
-
+		var_dump($commentdata); die;
 	}
 }

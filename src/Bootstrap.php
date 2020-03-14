@@ -78,10 +78,20 @@ class Bootstrap {
 		wp_enqueue_script( 'vue-resource', 'https://cdn.jsdelivr.net/npm/vue-resource@1.5.1', [ 'vue-js' ] );
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function is_plugin_page(): bool {
+	public function set_admin_menu() {
+		add_submenu_page(
+			'options-general.php',
+			'WP Simple Notify Settings',
+			'WP Simple Notify',
+			'manage_options',
+			self::MENU_SLUG,
+			function () {
+				include __DIR__ . '/templates/main-settings.php';
+			}
+		);
+	}
+
+	public function is_plugin_page() {
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return false;
 		}
