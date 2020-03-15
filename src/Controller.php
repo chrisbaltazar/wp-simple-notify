@@ -24,6 +24,9 @@ class Controller {
 		$this->settings = $settings;
 	}
 
+	/**
+	 *
+	 */
 	public function run() {
 		foreach ( array_keys( Settings::PLUGIN_ACTIONS ) as $action_key ) {
 			if ( ! $this->is_active( $action_key ) ) {
@@ -41,6 +44,11 @@ class Controller {
 		}
 	}
 
+	/**
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
 	private function is_active( string $action ): bool {
 		$finder = array_filter( $this->settings->get_actions(), function ( $item ) use ( $action ) {
 			return $item['key'] === $action && $item['active'];
@@ -49,6 +57,13 @@ class Controller {
 		return ! empty( $finder );
 	}
 
+	/**
+	 * @param $comment_ID
+	 * @param $comment_approved
+	 * @param $commentdata
+	 *
+	 * @throws lib\phpmailerException
+	 */
 	public function notify_comment_author( $comment_ID, $comment_approved, $commentdata ) {
 		$post = get_post( $commentdata['comment_post_ID'] );
 		if ( ! $post || $post->post_author == $commentdata['user_id'] ) {
@@ -66,6 +81,13 @@ class Controller {
 		$this->send_email( $author->user_email, $subject, $message, $link );
 	}
 
+	/**
+	 * @param $comment_ID
+	 * @param $comment_approved
+	 * @param $commentdata
+	 *
+	 * @throws lib\phpmailerException
+	 */
 	public function notify_comment_user( $comment_ID, $comment_approved, $commentdata ) {
 		if ( ! $commentdata['user_id'] || ! $commentdata['comment_parent'] ) {
 			return;
@@ -87,6 +109,15 @@ class Controller {
 		$this->send_email( $comment_parent->comment_author_email, $subject, $message, $link );
 	}
 
+	/**
+	 * @param string $address
+	 * @param string $subject
+	 * @param string $message
+	 * @param string $post_link
+	 *
+	 * @return bool
+	 * @throws lib\phpmailerException
+	 */
 	private function send_email( string $address, string $subject, string $message, string $post_link ) {
 		$mail = $this->get_email( $this->settings->get_config() );
 
@@ -97,15 +128,20 @@ class Controller {
 		return $mail->Send();
 	}
 
+	/**
+	 * @param array $config
+	 *
+	 * @return PHPMailer
+	 */
 	private function get_email( array $config ) {
 		$mail          = new PHPMailer( true );
 		$mail->CharSet = 'UTF-8';
 		$mail->IsHTML( true );
 
 		$mail->IsSMTP();
-		$mail->SMTPAuth  = true;
 		$mail->SMTPDebug = 1;
 
+		$mail->SMTPAuth   = ! empty( $config['smtp_user'] ) && ! empty( $config['smtp_pwd'] );
 		$mail->From       = $config['email_from'];
 		$mail->FromName   = $config['sender'];
 		$mail->Host       = $config['host'];
