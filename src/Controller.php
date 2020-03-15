@@ -3,7 +3,6 @@
 namespace SimpleNotify;
 
 use SimpleNotify\lib\PHPMailer;
-use SimpleNotify\lib\PHPMailer2;
 
 /**
  * Class Controller

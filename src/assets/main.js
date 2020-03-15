@@ -11,7 +11,8 @@ new Vue({
         actions: wsnActions,
         endpoint: wsnEndpoint,
         errorMsg: '',
-        successMsg: ''
+        successMsg: '',
+        saving: false
     },
     filters: {
         status_label: function (value) {
@@ -39,11 +40,14 @@ new Vue({
         save() {
             this.successMsg = '';
             this.errorMsg = '';
+            this.saving = true;
             this.$http.post(this.endpoint.save, this.config).then(
                 response => {
+                    this.saving = false;
                     this.successMsg = 'Settings saved successfully';
                 },
                 error => {
+                    this.saving = false;
                     this.errorMsg = 'There was an error saving the settings, please try again. ' + error.body || error;
                 }
             )

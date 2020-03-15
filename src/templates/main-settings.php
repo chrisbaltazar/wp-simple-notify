@@ -63,7 +63,11 @@
                                required>
                     </div>
 
-                    <button type="submit" class="float-right btn btn-success btn-lg mb-x">Save configuration</button>
+                    <button type="submit" class="float-right btn btn-success btn-lg mb-x" :class="{disabled: saving}">
+                        <i class="fa fa-cog" v-if="!saving"></i>
+                        <i class="fa fa-spinner fa-spin" v-else></i>
+                        Save configuration
+                    </button>
                 </form>
             </div>
         </div>
