@@ -7,7 +7,7 @@ WP Plugin to manage email notifications for common events such as user's comment
 Easy to setup and get the ball rolling, just need to fill out the common email config fields as any other webmail client
 
 - Works also for private providers like AWS SES 
-- After you can just select the desided evens to be notified about
+- After you can just select the desired evens to be notified about
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -15,4 +15,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
