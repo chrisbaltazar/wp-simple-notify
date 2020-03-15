@@ -61,40 +61,50 @@ class Controller {
 		}
 
 		$link    = get_permalink( $post->ID );
-		$subject = 'New comment for <strong>' . $post->post_title . '</strong>';
+		$subject = 'New comment for: ' . $post->post_title;
 		$message = '<strong>Message:</strong><p>' . $commentdata['comment_content'] . '</p>';
 		$this->send_email( $author->user_email, $subject, $message, $link );
 	}
 
 	public function notify_comment_user( $comment_ID, $comment_approved, $commentdata ) {
-		var_dump( $commentdata );
-		die;
-		if ( ! $commentdata['user_id'] ) {
+		if ( ! $commentdata['user_id'] || ! $commentdata['comment_parent'] ) {
 			return;
 		}
 
+		$comment_parent = get_comment( $commentdata['comment_parent'] );
+		if ( ! $comment_parent ) {
+			return;
+		}
 
+		$post = get_post( $comment_parent->comment_post_ID );
+		if ( ! $post || $post->post_author == $comment_parent->user_id || ! $comment_parent->comment_author_email ) {
+			return;
+		}
+
+		$link    = get_permalink( $post->ID );
+		$subject = 'New reply in: ' . $post->post_title;
+		$message = '<strong>Message:</strong><p>' . $commentdata['comment_content'] . '</p>';
+		$this->send_email( $comment_parent->comment_author_email, $subject, $message, $link );
 	}
 
 	private function send_email( string $address, string $subject, string $message, string $post_link ) {
 		$mail = $this->get_email( $this->settings->get_config() );
 
 		$mail->AddAddress( $address );
-		$mail->Subject = $subject;
+		$mail->Subject = get_bloginfo() . ' - ' . $subject;
 		$mail->Body    = $message . '<p>Post link: <a href = "' . $post_link . '">' . $post_link . '</a></p>';
 
 		return $mail->Send();
 	}
 
 	private function get_email( array $config ) {
-//		require_once WPINC . '/class-phpmailer.php';
-		$mail          = new PHPMailer(true);
+		$mail          = new PHPMailer( true );
 		$mail->CharSet = 'UTF-8';
 		$mail->IsHTML( true );
 
 		$mail->IsSMTP();
 		$mail->SMTPAuth  = true;
-		$mail->SMTPDebug = 2;
+		$mail->SMTPDebug = 1;
 
 		$mail->From       = $config['email_from'];
 		$mail->FromName   = $config['sender'];
