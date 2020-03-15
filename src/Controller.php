@@ -24,7 +24,7 @@ class Controller {
 	}
 
 	/**
-	 *
+	 * Put everything to work now
 	 */
 	public function run() {
 		foreach ( array_keys( Settings::PLUGIN_ACTIONS ) as $action_key ) {

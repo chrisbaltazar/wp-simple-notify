@@ -9,9 +9,6 @@ namespace SimpleNotify;
  */
 class Bootstrap {
 
-	/**
-	 *
-	 */
 	const PLUGIN_NAME = 'wp-simple-notify';
 
 	const MENU_SLUG = 'wp-simple-notify-admin';
@@ -37,7 +34,7 @@ class Bootstrap {
 	}
 
 	/**
-	 *
+	 * Starts the magic
 	 */
 	public static function init() {
 		$obj = new self( Settings::init() );
@@ -58,10 +55,7 @@ class Bootstrap {
 
 		wp_localize_script( 'main-app', 'wsnConfig', $this->settings->get_config() ?: (object) [] );
 		wp_localize_script( 'main-app', 'wsnActions', $this->settings->get_actions() ?: (object) [] );
-		wp_localize_script( 'main-app', 'wsnEndpoint', [
-			'save'   => $this->settings->get_endpoint( Settings::ENDPOINT_SAVE_CONFIG ),
-			'action' => $this->settings->get_endpoint( Settings::ENDPOINT_SET_ACTION ),
-		] );
+		wp_localize_script( 'main-app', 'wsnEndpoint', $this->settings->get_endpoints() ?: (object) [] );
 	}
 
 	/**
@@ -79,6 +73,9 @@ class Bootstrap {
 		wp_enqueue_script( 'vue-resource', 'https://cdn.jsdelivr.net/npm/vue-resource@1.5.1', [ 'vue-js' ] );
 	}
 
+	/**
+	 *
+	 */
 	public function set_admin_menu() {
 		add_submenu_page(
 			'options-general.php',
@@ -92,7 +89,10 @@ class Bootstrap {
 		);
 	}
 
-	public function is_plugin_page() {
+	/**
+	 * @return bool
+	 */
+	public function is_plugin_page(): bool {
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return false;
 		}

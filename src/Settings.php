@@ -10,24 +10,12 @@ namespace SimpleNotify;
  */
 class Settings {
 
-	/**
-	 *
-	 */
 	const ENDPOINT_SAVE_CONFIG = '/save';
 
-	/**
-	 *
-	 */
 	const ENDPOINT_SET_ACTION = '/action';
 
-	/**
-	 *
-	 */
 	const OPTION_CONFIG_NAME = Bootstrap::PLUGIN_NAME . '-config';
 
-	/**
-	 *
-	 */
 	const OPTION_ACTION_NAME = Bootstrap::PLUGIN_NAME . '-actions';
 
 	/**
@@ -81,12 +69,13 @@ class Settings {
 	}
 
 	/**
-	 * @param string $path
-	 *
-	 * @return string
+	 * @return array
 	 */
-	public function get_endpoint( string $path = '' ): string {
-		return '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( $path, '/' );
+	public function get_endpoints(): array {
+		return [
+			'save'   => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_SAVE_CONFIG, '/' ),
+			'action' => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_SET_ACTION, '/' )
+		];
 	}
 
 	/**
