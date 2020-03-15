@@ -89,8 +89,11 @@
                     <span href="" class="list-group-item list-group-item-action" v-for="(action, index) in actions">
                         <label>{{action.text}}</label>
                         <button class="btn float-right my-m mx-m" :class="action.active | status_button"
-                                @click="set(index, action)">{{ action.active | status_label }}</button>
-                        <span class="badge badge-pill float-right my-2 mx-4" :class="action.active | status_badge">{{ action.active ? 'ON' : 'OFF' }}</span>
+                                :class="{disabled: action.saving}"
+                                @click.stop="set(index, action)">{{ action.active | status_label }}</button>
+                        <span class="badge badge-pill float-right my-2 mx-4" :class="action.active | status_badge"
+                              v-if="!action.saving">{{ action.active ? 'ON' : 'OFF' }}</span>
+                        <i class="fa fa-spinner fa-spin float-right my-2 mx-4" v-else></i>
                     </span>
                 </div>
             </div>

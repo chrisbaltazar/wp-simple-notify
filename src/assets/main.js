@@ -53,12 +53,13 @@ new Vue({
             )
         },
         set(index, action) {
+            this.actions[index].saving = true;
             this.$http.post(this.endpoint.action, action).then(
                 response => {
                     this.update(index, action);
                 },
                 error => {
-                    alert(error.message);
+                    alert(error.body);
                 }
             )
         },
@@ -68,6 +69,7 @@ new Vue({
             }).shift();
 
             finder.active = !current_action.active;
+            finder.saving = false;
             this.actions.splice(index, 1, finder);
         }
     },
