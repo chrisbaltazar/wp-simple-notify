@@ -3,7 +3,9 @@
 
 namespace SimpleNotify\lib;
 
-class PHPMailer2 {
+use SimpleNotify\lib\SMTP;
+
+class PHPMailer {
 	/**
 	 * Sets the CharSet of the message.
 	 * @var string

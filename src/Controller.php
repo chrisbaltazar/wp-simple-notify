@@ -2,6 +2,13 @@
 
 namespace SimpleNotify;
 
+use SimpleNotify\lib\PHPMailer;
+use SimpleNotify\lib\PHPMailer2;
+
+/**
+ * Class Controller
+ * @package SimpleNotify
+ */
 class Controller {
 	/**
 	 * @var Settings
@@ -32,16 +39,6 @@ class Controller {
 					break;
 			}
 		}
-
-		$mail = $this->get_email( $this->settings->get_config() );
-
-		$mail->Subject = 'mail title';
-		$mail->Body    = 'body message';
-		$mail->AddAddress( 'ing.chris@hotmail.com' );
-
-//		echo "SENDING";
-		var_export( $mail );
-		$mail->Send();
 	}
 
 	private function is_active( string $action ): bool {
@@ -90,7 +87,8 @@ class Controller {
 	}
 
 	private function get_email( array $config ) {
-		$mail          = new \PHPMailer( true );
+//		require_once WPINC . '/class-phpmailer.php';
+		$mail          = new PHPMailer(true);
 		$mail->CharSet = 'UTF-8';
 		$mail->IsHTML( true );
 

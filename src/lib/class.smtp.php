@@ -46,6 +46,8 @@
  * original author: Chris Ryan
  */
 
+namespace SimpleNotify\lib;
+
 class SMTP {
   /**
    *  SMTP server port
