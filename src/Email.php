@@ -1,10 +1,12 @@
 <?php
 
-
 namespace SimpleNotify;
 
-class EMail {
+use SimpleNotify\lib\PHPMailer;
+
+class Email {
 	public $address_from;
+	public $password;
 	public $name_from;
 	public $smtp_host;
 	public $smpt_port;
@@ -14,23 +16,23 @@ class EMail {
 	public $subject;
 	public $text;
 
-
+	/** @var PHPMailer */
 	private $mail;
 	private $html;
 	private $debug;
 	private $auth;
 
-	public function __construct( $debug = 1, $html = true, $auth = true ) {
-		$this->html  = $html;
+	public function __construct( $debug = 1, $html = true ) {
 		$this->debug = $debug;
-		$this->auth  = $auth;
 
 		$this->mail = new PHPMailer();
-		$this->mail->IsHTML( $this->html );
+		$this->mail->IsHTML( $html );
 		$this->mail->IsSMTP();
-		$this->mail->SMTPDebug = $this->debug;
-		$this->mail->SMTPAuth  = $this->auth;
-		$this->mail->CharSet   = 'UTF-8';
+		$this->mail->CharSet = 'UTF-8';
+	}
+
+	public function setAuth( $auth ) {
+		$this->mail->SMTPAuth = $auth;
 	}
 
 	public function add( $to ) {
@@ -50,7 +52,7 @@ class EMail {
 		$this->mail->ClearAllRecipients();
 	}
 
-	public function Send() {
+	public function send() {
 
 		$this->mail->From     = $this->address_from;
 		$this->mail->FromName = $this->name_from;
@@ -64,8 +66,8 @@ class EMail {
 			$this->mail->SMTPSecure = $this->smtp_secure;
 		}
 
-		$this->mail->Username = $this->smtp_user ? $this->smtp_user : $this->address_from;
-		$this->mail->Password = $this->smtp_pwd;
+		$this->mail->Username = $this->smtp_user ?: $this->address_from ?: '';
+		$this->mail->Password = $this->smtp_pwd ?: $this->password ?: '';
 
 		//Se verifica que se haya enviado el correo con el metodo Send().
 		return $this->mail->Send();
