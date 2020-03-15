@@ -1,8 +1,6 @@
 <?php
 
-
 namespace SimpleNotify;
-
 
 class Controller {
 	/**
@@ -34,6 +32,16 @@ class Controller {
 					break;
 			}
 		}
+
+		$mail = $this->get_email( $this->settings->get_config() );
+
+		$mail->Subject = 'mail title';
+		$mail->Body    = 'body message';
+		$mail->AddAddress( 'ing.chris@hotmail.com' );
+
+//		echo "SENDING";
+		var_export( $mail );
+		$mail->Send();
 	}
 
 	private function is_active( string $action ): bool {
@@ -45,13 +53,8 @@ class Controller {
 	}
 
 	public function notify_comment_author( $comment_ID, $comment_approved, $commentdata ) {
-		var_dump( $commentdata );
 		$post = get_post( $commentdata['comment_post_ID'] );
 		if ( ! $post || $post->post_author == $commentdata['user_id'] ) {
-			return;
-		}
-
-		if ( ! $commentdata['comment_author_email'] ) {
 			return;
 		}
 
@@ -60,15 +63,10 @@ class Controller {
 			return;
 		}
 
-		$mail          = $this->get_email( $this->settings->get_config() );
-		var_dump($mail);
-
-		$mail->subject = 'New comment for <strong>' . $post->post_title . '</strong>';
-		$mail->text    = $commentdata['comment_content'];
-		$mail->add( $author->user_email );
-
-		$mail->send();
-		var_dump( $mail );
+		$link    = get_permalink( $post->ID );
+		$subject = 'New comment for <strong>' . $post->post_title . '</strong>';
+		$message = '<strong>Message:</strong><p>' . $commentdata['comment_content'] . '</p>';
+		$this->send_email( $author->user_email, $subject, $message, $link );
 	}
 
 	public function notify_comment_user( $comment_ID, $comment_approved, $commentdata ) {
@@ -78,20 +76,35 @@ class Controller {
 			return;
 		}
 
+
+	}
+
+	private function send_email( string $address, string $subject, string $message, string $post_link ) {
+		$mail = $this->get_email( $this->settings->get_config() );
+
+		$mail->AddAddress( $address );
+		$mail->Subject = $subject;
+		$mail->Body    = $message . '<p>Post link: <a href = "' . $post_link . '">' . $post_link . '</a></p>';
+
+		return $mail->Send();
 	}
 
 	private function get_email( array $config ) {
-		$mail = new Email();
+		$mail          = new \PHPMailer( true );
+		$mail->CharSet = 'UTF-8';
+		$mail->IsHTML( true );
 
-		$mail->address_from = $config['email_from'];
-		$mail->password     = $config['email_pwd'];
-		$mail->name_from    = $config['sender'];
-		$mail->smtp_host    = $config['host'];
-		$mail->smpt_port    = $config['port'];
-		$mail->smtp_secure  = $config['secure'];
+		$mail->IsSMTP();
+		$mail->SMTPAuth  = true;
+		$mail->SMTPDebug = 2;
 
-		$mail->smtp_user = $config['smtp_user'] ?? null;
-		$mail->smtp_pwd  = $config['smtp_pwd'] ?? null;
+		$mail->From       = $config['email_from'];
+		$mail->FromName   = $config['sender'];
+		$mail->Host       = $config['host'];
+		$mail->Port       = $config['port'];
+		$mail->SMTPSecure = $config['secure'];
+		$mail->Username   = $config['smtp_user'] ?: $config['email_from'];
+		$mail->Password   = $config['smtp_pwd'] ?: $config['email_pwd'];
 
 		return $mail;
 	}

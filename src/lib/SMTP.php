@@ -4,7 +4,7 @@
 namespace SimpleNotify\lib;
 
 
-class SMTP {
+class SMTP2 {
 	/**
 	 *  SMTP server port
 	 *  @var int

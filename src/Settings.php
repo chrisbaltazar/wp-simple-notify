@@ -139,7 +139,7 @@ class Settings {
 			'email_from' => sanitize_email( $params['email_from'] ),
 			'email_pwd'  => sanitize_text_field( $params['email_pwd'] ),
 			'sender'     => sanitize_text_field( $params['sender'] ),
-			'host'       => esc_url_raw( $params['host'] ),
+			'host'       => sanitize_text_field( $params['host'] ),
 			'port'       => sanitize_text_field( $params['port'] ),
 			'secure'     => sanitize_text_field( $params['secure'] ),
 		];

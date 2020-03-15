@@ -2,10 +2,12 @@
 /**
  * Plugin Name: WP Simple Notify
  * Plugin URI:
- * Description: Very simple plugin to handle common email notifications
+ * Description: Very simple buu efficient plugin to handle common email notifications
  * Version: 1.0
  * Author: Chris Baltazar
  **/
+
+ini_set('display_errors', 1);
 
 define( 'SIMPLE_NOTIFY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SIMPLE_NOTIFY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

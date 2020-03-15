@@ -17,22 +17,24 @@ class Email {
 	public $text;
 
 	/** @var PHPMailer */
-	private $mail;
-	private $html;
+	private $mailer;
+	/**
+	 * @var int
+	 */
 	private $debug;
-	private $auth;
 
 	public function __construct( $debug = 1, $html = true ) {
 		$this->debug = $debug;
 
-		$this->mail = new PHPMailer();
-		$this->mail->IsHTML( $html );
-		$this->mail->IsSMTP();
-		$this->mail->CharSet = 'UTF-8';
+		$this->mailer            = new PHPMailer();
+		$this->mailer->SMTPDebug = $debug;
+		$this->mailer->IsHTML( $html );
+		$this->mailer->IsSMTP();
+		$this->mailer->CharSet = 'UTF-8';
 	}
 
 	public function setAuth( $auth ) {
-		$this->mail->SMTPAuth = $auth;
+		$this->mailer->SMTPAuth = $auth;
 	}
 
 	public function add( $to ) {
@@ -40,37 +42,37 @@ class Email {
 			$to = array( $to );
 		}
 		foreach ( $to as $t ) {
-			$this->mail->AddAddress( $t );
+			$this->mailer->AddAddress( $t );
 		}
 	}
 
 	public function attach( $file, $name = "" ) {
-		$this->mail->AddAttachment( $file, $name );
+		$this->mailer->AddAttachment( $file, $name );
 	}
 
 	public function clear() {
-		$this->mail->ClearAllRecipients();
+		$this->mailer->ClearAllRecipients();
 	}
 
 	public function send() {
 
-		$this->mail->From     = $this->address_from;
-		$this->mail->FromName = $this->name_from;
-		$this->mail->Host     = $this->smtp_host;
-		$this->mail->Port     = $this->smtp_port;
+		$this->mailer->From     = $this->address_from;
+		$this->mailer->FromName = $this->name_from;
+		$this->mailer->Host     = $this->smtp_host;
+		$this->mailer->Port     = $this->smtp_port;
 
-		$this->mail->Subject = ( $this->subject );
-		$this->mail->Body    = ( $this->text );
+		$this->mailer->Subject = ( $this->subject );
+		$this->mailer->Body    = ( $this->text );
 
 		if ( $this->smtp_secure ) {
-			$this->mail->SMTPSecure = $this->smtp_secure;
+			$this->mailer->SMTPSecure = $this->smtp_secure;
 		}
 
-		$this->mail->Username = $this->smtp_user ?: $this->address_from ?: '';
-		$this->mail->Password = $this->smtp_pwd ?: $this->password ?: '';
+		$this->mailer->Username = $this->smtp_user ?: $this->address_from ?: '';
+		$this->mailer->Password = $this->smtp_pwd ?: $this->password ?: '';
 
 		//Se verifica que se haya enviado el correo con el metodo Send().
-		return $this->mail->Send();
+		return $this->mailer->Send();
 	}
 
 
