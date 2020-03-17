@@ -82,7 +82,7 @@ class Settings {
 	 * @return array
 	 */
 	public function get_config(): array {
-		return [ 'WSN_EMAIL_PWD' => defined( WSN_EMAIL_PWD ) ? WSN_EMAIL_PWD : '' ] + $this->stored_data['config'];
+		return [ 'DEFINED_PWD' => defined( 'WSN_EMAIL_PWD' ) && WSN_EMAIL_PWD ] + $this->stored_data['config'];
 	}
 
 	/**

@@ -21,10 +21,14 @@
                         <input type="email" class="form-control" placeholder="@" v-model="config.email_from"
                                required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" v-if="!customSmtp">
                         <label>Email password:</label>
                         <input type="password" class="form-control" placeholder="*" v-model="config.email_pwd"
+                               v-if="!defined_pwd"
                                required>
+                        <input type="text" class="form-control" placeholder="Password defined from source config file"
+                               readonly
+                               v-else>
                     </div>
                     <div class="form-group">
                         <label>Sender name:</label>
@@ -52,17 +56,24 @@
                             <input type="checkbox" v-model="customSmtp" value="1">
                         </label>
                     </div>
-                    <div class="form-group" v-if="customSmtp">
-                        <label>SMTP User:</label>
-                        <input type="text" class="form-control" placeholder="user" v-model="config.smtp_user"
-                               required>
+                    <div v-if="customSmtp">
+                        <div class="form-group">
+                            <label>SMTP User:</label>
+                            <input type="text" class="form-control" placeholder="user" v-model="config.smtp_user"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label>SMTP password:</label>
+                            <input type="password" class="form-control" placeholder="password"
+                                   v-model="config.smtp_pwd"
+                                   v-if="!defined_pwd"
+                                   required>
+                            <input type="text" class="form-control"
+                                   placeholder="Password defined from source config file"
+                                   readonly
+                                   v-else>
+                        </div>
                     </div>
-                    <div class="form-group" v-if="customSmtp">
-                        <label>SMTP password:</label>
-                        <input type="password" class="form-control" placeholder="password" v-model="config.smtp_pwd"
-                               required>
-                    </div>
-
                     <button type="submit" class="float-right btn btn-success btn-lg mb-x" :class="{disabled: saving}">
                         <i class="fa fa-cog" v-if="!saving"></i>
                         <i class="fa fa-spinner fa-spin" v-else></i>
