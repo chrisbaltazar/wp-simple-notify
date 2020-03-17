@@ -77,8 +77,7 @@
 
                     <div class="alert alert-secondary" role="alert" v-if="!defined_pwd">
                         Please remember that you can also setup the EMAIL password creating a CONSTANT inside the <code>wp-config</code> file for safety, like this:
-                        <br>
-                        </samp><code>define( 'WSN_EMAIL_PWD', 'my-password' );</code>
+                        <br><code>define( 'WSN_EMAIL_PWD', 'my-password' );</code>
                     </div>
 
                     <button type="submit" class="float-right btn btn-success btn-lg mb-x" :class="{disabled: saving}">
