@@ -66,17 +66,17 @@ class Bootstrap {
 			return;
 		}
 
-		wp_enqueue_style( 'boostrap4-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' );
-		wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' );
-		wp_enqueue_script( 'font-awesome', 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
+		wp_enqueue_style( 'boostrap-css', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/bootstrap-4.4.1.min.css' );
+		wp_enqueue_script( 'bootstrap-js', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/bootstrap-4.4.1.min.js' );
+		wp_enqueue_script( 'font-awesome', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/font-awesome-4.7.0.min.css' );
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			wp_enqueue_script( 'vue-js', 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js' );
+			wp_enqueue_script( 'vue-js', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/vue-dev.js' );
 		} else {
-			wp_enqueue_script( 'vue-js', 'https://cdn.jsdelivr.net/npm/vue@2.6.11' );
+			wp_enqueue_script( 'vue-js', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/vue@2.6.11.js' );
 		}
 
-		wp_enqueue_script( 'vue-resource', 'https://cdn.jsdelivr.net/npm/vue-resource@1.5.1', [ 'vue-js' ] );
+		wp_enqueue_script( 'vue-resource', SIMPLE_NOTIFY_PLUGIN_URL . '/src/assets/vue-resource@1.5.1.js', [ 'vue-js' ] );
 	}
 
 	/**
