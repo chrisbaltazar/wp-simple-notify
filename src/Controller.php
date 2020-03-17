@@ -152,7 +152,7 @@ class Controller {
 		$mail->Port       = $config['port'];
 		$mail->SMTPSecure = $config['secure'];
 		$mail->Username   = $config['smtp_user'] ?: $config['email_from'];
-		$mail->Password   = $config['DEFINED_PWD'] ? WSN_EMAIL_PWD : $config['smtp_pwd'] ?: $config['email_pwd'];
+		$mail->Password   = $config[ Settings::DEFINED_PWD_VAR ] ? WSN_EMAIL_PWD : $config['smtp_pwd'] ?: $config['email_pwd'];
 
 		return $mail;
 	}

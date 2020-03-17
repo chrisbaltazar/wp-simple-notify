@@ -18,6 +18,8 @@ class Settings {
 
 	const OPTION_ACTION_NAME = Bootstrap::PLUGIN_NAME . '-actions';
 
+	const DEFINED_PWD_VAR = 'DEFINED_PWD';
+
 	/**
 	 *
 	 */
@@ -25,6 +27,7 @@ class Settings {
 		'comment_for_author' => 'Notify new comments to post author',
 		'comment_for_user'   => 'Notify new replies to visitor\'s comments',
 	];
+
 	/**
 	 * @var array
 	 */
@@ -82,7 +85,7 @@ class Settings {
 	 * @return array
 	 */
 	public function get_config(): array {
-		return [ 'DEFINED_PWD' => defined( 'WSN_EMAIL_PWD' ) && ! empty( WSN_EMAIL_PWD ) ] + $this->stored_data['config'];
+		return [ self::DEFINED_PWD_VAR => defined( 'WSN_EMAIL_PWD' ) && ! empty( WSN_EMAIL_PWD ) ] + $this->stored_data['config'];
 	}
 
 	/**
@@ -189,6 +192,6 @@ class Settings {
 	 * @return bool
 	 */
 	private function is_setup(): bool {
-		return ! empty( $this->get_config() );
+		return ! empty( $this->stored_data['config'] );
 	}
 }
