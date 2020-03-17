@@ -61,7 +61,6 @@ class Controller {
 	 * @param $comment_approved
 	 * @param $commentdata
 	 *
-	 * @throws lib\phpmailerException
 	 */
 	public function notify_comment_author( $comment_ID, $comment_approved, $commentdata ) {
 		$post = get_post( $commentdata['comment_post_ID'] );
@@ -85,7 +84,6 @@ class Controller {
 	 * @param $comment_approved
 	 * @param $commentdata
 	 *
-	 * @throws lib\phpmailerException
 	 */
 	public function notify_comment_user( $comment_ID, $comment_approved, $commentdata ) {
 		if ( ! $commentdata['user_id'] || ! $commentdata['comment_parent'] ) {
@@ -115,7 +113,6 @@ class Controller {
 	 * @param string $post_link
 	 *
 	 * @return bool
-	 * @throws lib\phpmailerException
 	 */
 	private function send_email( string $address, string $subject, string $message, string $post_link ) {
 		$mail = $this->get_email( $this->settings->get_config() );
