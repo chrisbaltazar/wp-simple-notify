@@ -145,14 +145,14 @@ class Controller {
 		$mail->IsSMTP();
 		$mail->SMTPDebug = 2;
 
-		$mail->SMTPAuth   = ! empty( $config['smtp_user'] ) && ! empty( $config['smtp_pwd'] );
+		$mail->SMTPAuth   = ! empty( $config['smtp_user'] );
 		$mail->From       = $config['email_from'];
 		$mail->FromName   = $config['sender'];
 		$mail->Host       = $config['host'];
 		$mail->Port       = $config['port'];
 		$mail->SMTPSecure = $config['secure'];
 		$mail->Username   = $config['smtp_user'] ?: $config['email_from'];
-		$mail->Password   = $config['smtp_pwd'] ?: $config['email_pwd'];
+		$mail->Password   = $config['DEFINED_PWD'] ? WSN_EMAIL_PWD : $config['smtp_pwd'] ?: $config['email_pwd'];
 
 		return $mail;
 	}
