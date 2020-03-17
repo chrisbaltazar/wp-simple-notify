@@ -2,8 +2,6 @@
 
 namespace SimpleNotify;
 
-use SimpleNotify\lib\PHPMailer;
-
 /**
  * Class Controller
  * @package SimpleNotify
@@ -132,15 +130,16 @@ class Controller {
 	/**
 	 * @param array $config
 	 *
-	 * @return PHPMailer
+	 * @return \PHPMailer
 	 */
 	private function get_email( array $config ) {
-		$mail          = new PHPMailer( true );
+		require_once( ABSPATH . WPINC . '/class-phpmailer.php' );
+		$mail          = new \PHPMailer( true );
 		$mail->CharSet = 'UTF-8';
 		$mail->IsHTML( true );
 
 		$mail->IsSMTP();
-		$mail->SMTPDebug = 2;
+		$mail->SMTPDebug = 1;
 
 		$mail->SMTPAuth   = ! empty( $config['smtp_user'] );
 		$mail->From       = $config['email_from'];
