@@ -157,6 +157,10 @@ class Settings {
 			return new \WP_REST_Response( 'There was an error saving your request.', 500 );
 		}
 
+		if ( ! $this->is_setup() ) {
+			return new \WP_REST_Response( 'Please setup all email config before continue', 500 );
+		}
+
 		$data = array_merge( $this->stored_data['actions'], $action );
 
 		update_option( self::OPTION_ACTION_NAME, $data );
@@ -179,5 +183,12 @@ class Settings {
 		return [
 			$params['key'] => [ 'active' => $status ? 1 : 0 ]
 		];
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function is_setup(): bool {
+		return ! empty( $this->get_config() );
 	}
 }
