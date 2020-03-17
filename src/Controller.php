@@ -76,7 +76,7 @@ class Controller {
 
 		$link    = get_permalink( $post->ID );
 		$subject = 'New comment for: ' . $post->post_title;
-		$message = '<strong>Message:</strong><p>' . $commentdata['comment_content'] . '</p>';
+		$message = '<strong>Comment:</strong><p>' . $commentdata['comment_content'] . '</p>';
 		$this->send_email( $author->user_email, $subject, $message, $link );
 	}
 
@@ -104,7 +104,7 @@ class Controller {
 
 		$link    = get_permalink( $post->ID );
 		$subject = 'New reply in: ' . $post->post_title;
-		$message = '<strong>Message:</strong><p>' . $commentdata['comment_content'] . '</p>';
+		$message = '<strong>Comment:</strong><p>' . $commentdata['comment_content'] . '</p>';
 		$this->send_email( $comment_parent->comment_author_email, $subject, $message, $link );
 	}
 
@@ -124,7 +124,12 @@ class Controller {
 		$mail->Subject = get_bloginfo() . ' - ' . $subject;
 		$mail->Body    = $message . '<p>Post link: <a href = "' . $post_link . '">' . $post_link . '</a></p>';
 
-		return $mail->Send();
+		try {
+			return $mail->Send();
+		} catch ( \Exception $ex ) {
+			return false;
+		}
+
 	}
 
 	/**
@@ -138,7 +143,7 @@ class Controller {
 		$mail->IsHTML( true );
 
 		$mail->IsSMTP();
-		$mail->SMTPDebug = 1;
+		$mail->SMTPDebug = 2;
 
 		$mail->SMTPAuth   = ! empty( $config['smtp_user'] ) && ! empty( $config['smtp_pwd'] );
 		$mail->From       = $config['email_from'];
