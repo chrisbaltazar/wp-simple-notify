@@ -134,7 +134,7 @@ class Settings {
 		];
 
 		foreach ( $config as $key => $value ) {
-			if ( empty( $value ) ) {
+			if ( isset( $params[ $key ] ) && empty( $value ) ) {
 				return [];
 			}
 		}
