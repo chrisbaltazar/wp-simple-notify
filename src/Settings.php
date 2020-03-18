@@ -14,6 +14,8 @@ class Settings {
 
 	const ENDPOINT_SET_ACTION = '/action';
 
+	const ENDPOINT_TEST_ACTION = '/test';
+
 	const OPTION_CONFIG_NAME = Bootstrap::PLUGIN_NAME . '-config';
 
 	const OPTION_ACTION_NAME = Bootstrap::PLUGIN_NAME . '-actions';
@@ -69,6 +71,12 @@ class Settings {
 				'methods'  => 'POST',
 				'callback' => [ $this, 'switch' ],
 			] );
+
+		register_rest_route( Bootstrap::PLUGIN_NAME, self::ENDPOINT_TEST_ACTION,
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'test_email' ],
+			] );
 	}
 
 	/**
@@ -77,7 +85,8 @@ class Settings {
 	public function get_endpoints(): array {
 		return [
 			'save'   => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_SAVE_CONFIG, '/' ),
-			'action' => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_SET_ACTION, '/' )
+			'action' => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_SET_ACTION, '/' ),
+			'test'   => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_TEST_ACTION, '/' )
 		];
 	}
 
@@ -193,5 +202,23 @@ class Settings {
 	 */
 	public function is_setup(): bool {
 		return ! empty( $this->stored_data['config'] );
+	}
+
+	public function test_email() {
+		if ( ! $this->is_setup() ) {
+			return new \WP_REST_Response( 'Please complete the configuration before testing', 500 );
+		}
+
+		$controller = new Controller( $this );
+		$subject    = 'Email testing';
+		$body       = 'This was an automatic test from ' . Bootstrap::PLUGIN_NAME . ' plugin';
+		$address    = $this->stored_data['config']['email_from'];
+		$link       = home_url();
+
+		if ( ! $controller->send_email( $address, $subject, $body, $link ) ) {
+			return new \WP_REST_Response( 'Email not sent, chcek again your configuration', 500 );
+		}
+
+		return new \WP_REST_Response( 'Email test successfully' );
 	}
 }
