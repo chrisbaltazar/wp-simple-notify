@@ -76,6 +76,21 @@ new Vue({
             finder.active = !current_action.active;
             finder.saving = false;
             this.actions.splice(index, 1, finder);
+        },
+        test() {
+            this.successMsg = '';
+            this.errorMsg = '';
+            this.sending = true;
+            this.$http.get(this.endpoint.test).then(
+                response => {
+                    this.sending = false;
+                    this.successMsg = 'Email test successfully, you can check the results in the same email inbox!';
+                },
+                error => {
+                    this.sending = false;
+                    this.errorMsg = 'There was an error while sending the email test. ' + error.body;
+                }
+            )
         }
     },
     watch: {

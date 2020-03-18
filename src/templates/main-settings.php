@@ -89,7 +89,8 @@
                             Save configuration
                         </button>
                         <button type="button" class="float-right btn btn-dark btn-lg mb-x mx-2" :class="{disabled: sending}"
-                                v-if="isReady">
+                                v-if="isReady"
+                                @click="test">
                             <i class="fa fa-paper-plane" v-if="!sending"></i>
                             <i class="fa fa-spinner fa-spin" v-else></i>
                             Make a sending test
