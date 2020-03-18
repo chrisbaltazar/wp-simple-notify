@@ -112,7 +112,7 @@ class Controller {
 	 *
 	 * @return bool
 	 */
-	private function send_email( string $address, string $subject, string $message, string $post_link ) {
+	public function send_email( string $address, string $subject, string $message, string $post_link ) {
 		$mail = $this->get_email( $this->settings->get_config() );
 
 		$mail->AddAddress( $address );

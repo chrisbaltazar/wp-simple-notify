@@ -191,7 +191,7 @@ class Settings {
 	/**
 	 * @return bool
 	 */
-	private function is_setup(): bool {
+	public function is_setup(): bool {
 		return ! empty( $this->stored_data['config'] );
 	}
 }

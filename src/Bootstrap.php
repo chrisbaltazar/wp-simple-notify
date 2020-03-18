@@ -56,6 +56,7 @@ class Bootstrap {
 		wp_localize_script( 'main-app', 'wsnConfig', $this->settings->get_config() ?: (object) [] );
 		wp_localize_script( 'main-app', 'wsnActions', $this->settings->get_actions() ?: (object) [] );
 		wp_localize_script( 'main-app', 'wsnEndpoint', $this->settings->get_endpoints() ?: (object) [] );
+		wp_localize_script( 'main-app', 'wsnIsReady', $this->settings->is_setup() );
 	}
 
 	/**

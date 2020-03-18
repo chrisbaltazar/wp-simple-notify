@@ -12,7 +12,8 @@ new Vue({
         endpoint: wsnEndpoint,
         errorMsg: '',
         successMsg: '',
-        saving: false
+        saving: false,
+        isReady: wsnIsReady
     },
     filters: {
         status_label: function (value) {
