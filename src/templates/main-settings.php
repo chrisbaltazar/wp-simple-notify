@@ -76,15 +76,25 @@
                     </div>
 
                     <div class="alert alert-secondary" role="alert" v-if="!defined_pwd">
-                        Please remember that you can also setup the EMAIL password creating a CONSTANT inside the <code>wp-config</code> file for safety, like this:
+                        Please remember that you can also setup the EMAIL password creating a CONSTANT inside the <code>wp-config</code>
+                        file for safety, like this:
                         <br><code>define( 'WSN_EMAIL_PWD', 'my-password' );</code>
                     </div>
 
-                    <button type="submit" class="float-right btn btn-success btn-lg mb-x" :class="{disabled: saving}">
-                        <i class="fa fa-cog" v-if="!saving"></i>
-                        <i class="fa fa-spinner fa-spin" v-else></i>
-                        Save configuration
-                    </button>
+                    <div>
+                        <button type="submit" class="float-right btn btn-success btn-lg mb-x mx-2"
+                                :class="{disabled: saving}">
+                            <i class="fa fa-cog" v-if="!saving"></i>
+                            <i class="fa fa-spinner fa-spin" v-else></i>
+                            Save configuration
+                        </button>
+                        <button type="button" class="float-right btn btn-dark btn-lg mb-x mx-2" :class="{disabled: sending}"
+                                v-if="isReady">
+                            <i class="fa fa-paper-plane" v-if="!sending"></i>
+                            <i class="fa fa-spinner fa-spin" v-else></i>
+                            Make a sending test
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

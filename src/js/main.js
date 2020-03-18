@@ -13,7 +13,8 @@ new Vue({
         errorMsg: '',
         successMsg: '',
         saving: false,
-        isReady: wsnIsReady
+        isReady: wsnIsReady,
+        sending: false
     },
     filters: {
         status_label: function (value) {
