@@ -49,6 +49,7 @@ new Vue({
             this.$http.post(this.endpoint.save, this.config).then(
                 response => {
                     this.saving = false;
+                    this.isReady = true;
                     this.successMsg = 'Settings saved successfully';
                 },
                 error => {
