@@ -76,7 +76,7 @@
                     </div>
 
                     <div class="alert alert-secondary" role="alert" v-if="!defined_pwd">
-                        Please remember that you can also setup the EMAIL password creating a CONSTANT inside the <code>wp-config</code>
+                        Please remember that you can also setup the <b>EMAIL / SMTP password</b> by creating a <b>CONSTANT</b> inside the <code>wp-config</code>
                         file for safety, like this:
                         <br><code>define( 'WSN_EMAIL_PWD', 'my-password' );</code>
                     </div>
@@ -109,8 +109,9 @@
                 </div>
             </div>
         </div>
+        <hr>
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mt-3">
                 <h3 class=""><span class="badge badge-warning">Plugin actions</span></h3>
                 <div class="list-group mt-5">
                     <span href="" class="list-group-item list-group-item-action" v-for="(action, index) in actions">
