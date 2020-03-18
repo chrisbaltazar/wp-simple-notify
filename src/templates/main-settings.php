@@ -99,11 +99,11 @@
                 </form>
             </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="messageClass">
             <div class="col-12">
-                <div class="alert alert-dismissible my-3 fade show" :class="messageClass" v-if="messageClass"
+                <div class="alert alert-dismissible my-3 fade show" :class="messageClass"
                      role="alert">
-                    <strong>{{successMsg || errorMsg}}</strong>
+                    <strong v-html="successMsg || errorMsg"></strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

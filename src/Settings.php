@@ -216,7 +216,7 @@ class Settings {
 		$link       = home_url();
 
 		if ( ! $controller->send_email( $address, $subject, $body, $link ) ) {
-			return new \WP_REST_Response( 'Email not sent, chcek again your configuration', 500 );
+			return new \WP_REST_Response( 'Email not sent, check again your configuration', 500 );
 		}
 
 		return new \WP_REST_Response( 'Email test successfully' );

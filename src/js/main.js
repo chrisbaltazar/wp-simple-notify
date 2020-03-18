@@ -53,7 +53,7 @@ new Vue({
                 },
                 error => {
                     this.saving = false;
-                    this.errorMsg = 'There was an error saving the settings, please try again. ' + error.body || error;
+                    this.errorMsg = 'There was an error saving the settings, please try again.<br>' + (error.bodyText || error.body || error);
                 }
             )
         },
@@ -64,7 +64,7 @@ new Vue({
                     this.update(index, action);
                 },
                 error => {
-                    alert(error.body);
+                    alert((error.bodyText || error.body || error));
                 }
             )
         },
@@ -88,7 +88,7 @@ new Vue({
                 },
                 error => {
                     this.sending = false;
-                    this.errorMsg = 'There was an error while sending the email test. ' + error.body;
+                    this.errorMsg = 'There was an error while sending the test.<br><pre>' + (error.bodyText || error.body) + '</pre>';
                 }
             )
         }
