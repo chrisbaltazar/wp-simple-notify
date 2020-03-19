@@ -110,10 +110,15 @@ class Controller {
 	 * @param string $message
 	 * @param string $post_link
 	 *
+	 * @param int $debug
+	 *
 	 * @return bool
 	 */
-	public function send_email( string $address, string $subject, string $message, string $post_link ) {
+	public function send_email( string $address, string $subject, string $message, string $post_link, int $debug = 0 ) {
 		$mail = $this->get_email( $this->settings->get_config() );
+		if ( $debug ) {
+			$mail->SMTPDebug = $debug;
+		}
 
 		$mail->AddAddress( $address );
 		$mail->Subject = get_bloginfo() . ' - ' . $subject;
@@ -134,12 +139,10 @@ class Controller {
 	 */
 	private function get_email( array $config ) {
 		require_once( ABSPATH . WPINC . '/class-phpmailer.php' );
-		$mail          = new \PHPMailer( true );
+		$mail          = new \PHPMailer();
 		$mail->CharSet = 'UTF-8';
 		$mail->IsHTML( true );
-
 		$mail->IsSMTP();
-		$mail->SMTPDebug = 1;
 
 		$mail->SMTPAuth   = ! empty( $config['smtp_user'] );
 		$mail->From       = $config['email_from'];
