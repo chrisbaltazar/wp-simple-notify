@@ -14,7 +14,7 @@ class Settings {
 
 	const ENDPOINT_SET_ACTION = '/action';
 
-	const ENDPOINT_TEST_ACTION = '/test';
+	const ENDPOINT_TEST_EMAIL = '/test';
 
 	const OPTION_CONFIG_NAME = Bootstrap::PLUGIN_NAME . '-config';
 
@@ -72,7 +72,7 @@ class Settings {
 				'callback' => [ $this, 'switch' ],
 			] );
 
-		register_rest_route( Bootstrap::PLUGIN_NAME, self::ENDPOINT_TEST_ACTION,
+		register_rest_route( Bootstrap::PLUGIN_NAME, self::ENDPOINT_TEST_EMAIL,
 			[
 				'methods'  => 'GET',
 				'callback' => [ $this, 'test_email' ],
@@ -86,7 +86,7 @@ class Settings {
 		return [
 			'save'   => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_SAVE_CONFIG, '/' ),
 			'action' => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_SET_ACTION, '/' ),
-			'test'   => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_TEST_ACTION, '/' )
+			'test'   => '/wp-json/' . trim( Bootstrap::PLUGIN_NAME, '\\/' ) . '/' . ltrim( self::ENDPOINT_TEST_EMAIL, '/' )
 		];
 	}
 
@@ -215,7 +215,7 @@ class Settings {
 		$address    = $this->stored_data['config']['email_from'];
 		$link       = home_url();
 
-		if ( ! $controller->send_email( $address, $subject, $body, $link ) ) {
+		if ( ! $controller->send_email( $address, $subject, $body, $link, 1 ) ) {
 			return new \WP_REST_Response( 'Email not sent, check again your configuration', 500 );
 		}
 
