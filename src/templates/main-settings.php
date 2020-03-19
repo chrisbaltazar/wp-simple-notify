@@ -26,7 +26,7 @@
                         <input type="password" class="form-control" placeholder="*" v-model="config.email_pwd"
                                v-if="!defined_pwd"
                                required>
-                        <input type="text" class="form-control" placeholder="Password defined from source config file"
+                        <input type="text" class="form-control" placeholder="Password defined from wp-config file"
                                readonly
                                v-else>
                     </div>
@@ -69,7 +69,7 @@
                                    v-if="!defined_pwd"
                                    required>
                             <input type="text" class="form-control"
-                                   placeholder="Password defined from source config file"
+                                   placeholder="Password defined from wp-config file"
                                    readonly
                                    v-else>
                         </div>
