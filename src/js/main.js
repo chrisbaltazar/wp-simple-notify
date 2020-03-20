@@ -38,7 +38,7 @@ new Vue({
             return '';
         },
         defined_pwd() {
-            return this.config.DEFINED_PWD;
+            return this.config.DEFINED_PWD != '';
         }
     },
     methods: {
@@ -46,6 +46,14 @@ new Vue({
             this.successMsg = '';
             this.errorMsg = '';
             this.saving = true;
+
+            if (this.customSmtp) {
+                delete this.config.email_pwd;
+            } else {
+                delete this.config.smtp_user;
+                delete this.config.smtp_pwd;
+            }
+
             this.$http.post(this.endpoint.save, this.config).then(
                 response => {
                     this.saving = false;
@@ -85,19 +93,13 @@ new Vue({
             this.$http.get(this.endpoint.test).then(
                 response => {
                     this.sending = false;
-                    this.successMsg = 'Email test successfully, you can check the results in the same email inbox!';
+                    this.successMsg = 'Email test successful, you can check the results in the same email inbox!';
                 },
                 error => {
                     this.sending = false;
                     this.errorMsg = 'There was an error while sending the test.<br><pre>' + (error.bodyText || error.body) + '</pre>';
                 }
             )
-        }
-    },
-    watch: {
-        customSmtp: function () {
-            delete this.config.smtp_user;
-            delete this.config.smtp_pwd;
         }
     },
     created() {
