@@ -103,6 +103,6 @@ new Vue({
         }
     },
     created() {
-        this.customSmtp = this.config.smtp_user != '' && (this.config.smtp_pwd != '' || this.config.DEFINED_PWD != '');
+        this.customSmtp = this.config.smtp_user && (this.config.smtp_pwd || this.config.DEFINED_PWD);
     }
 })

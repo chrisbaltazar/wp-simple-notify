@@ -15,20 +15,22 @@ Easiest WP Plugin to manage email notifications for common events such as user's
 
 Easy to setup and get the ball rolling, you just need to fill out the common email config fields as any other webmail client
 
-** Works also for private providers like AWS SES **
-* After that you can just select the desired evens to be notified about and that's it *
+**Works also for private providers like AWS SES**
+*After that you can just select the desired evens to be notified about and that's it*
 
 Manage everything from a single and very dynamic admin screen in your dashboard and get the plugin working just in a few minutes
 
 Just install it and then do directly into Settings / WP Simple Notify to see all the options. Enjoy it!
 
+== Screenshots ==
+
+1. Fill out the basic email data like any other application
+2. It works also for custom SMTP providers such Amazon SES and comes with a safe password storage method for your sake
+3. Finally just select what notifications would you like to manage :)
+
 == Installation ==
 
 1. Either upload the plugin files to the `/wp-content/plugins/wp-simple-notify` directory, or install the plugin through the WordPress plugins screen directly.
-1. Make sure you are able to run the simple command `composer install` inside your new plugin directory
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
-== Changelog ==
 
-= 1.0 =
-* First stable release version
