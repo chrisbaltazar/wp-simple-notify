@@ -4,7 +4,7 @@ Donate link: https://paypal.me/pools/c/8npKpqMHCF
 Tags: comments, notifications, email
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 1.1
+Stable tag: 1.1.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,9 @@ Just install it and then do directly into Settings / WP Simple Notify to see all
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Changelog ==
+
+= 1.1.1 =
+* Change main buttons layout and config labels for better understanding
 
 = 1.1 =
 * Small refactor to handle better email messages
