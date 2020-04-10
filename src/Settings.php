@@ -215,7 +215,7 @@ class Settings {
 		$address    = $this->stored_data['config']['email_from'];
 		$link       = home_url();
 
-		if ( ! $controller->send_email( $address, $subject, $body, $link, 1 ) ) {
+		if ( ! $controller->send_email( $address, $subject, $body, $link, 2 ) ) {
 			return new \WP_REST_Response( 'Email not sent, check again your configuration', 500 );
 		}
 
