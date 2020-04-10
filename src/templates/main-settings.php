@@ -76,24 +76,26 @@
                     </div>
 
                     <div class="alert alert-secondary" role="alert" v-if="!defined_pwd">
-                        Please remember that you can also setup the <b>EMAIL / SMTP password</b> by creating a <b>CONSTANT</b> inside the <code>wp-config</code>
+                        Please remember that you can also setup the <b>EMAIL / SMTP password</b> by creating a <b>CONSTANT</b>
+                        inside the <code>wp-config</code>
                         file for safety, like this:
                         <br><code>define( 'WSN_EMAIL_PWD', 'my-password' );</code>
                     </div>
 
                     <div>
-                        <button type="submit" class="float-right btn btn-success btn-lg mb-x mx-2"
-                                :class="{disabled: saving}">
-                            <i class="fa fa-cog" v-if="!saving"></i>
-                            <i class="fa fa-spinner fa-spin" v-else></i>
-                            Save configuration
-                        </button>
-                        <button type="button" class="float-right btn btn-dark btn-lg mb-x mx-2" :class="{disabled: sending}"
+                        <button type="button" class="float-right btn btn-dark btn-lg mb-x mx-2"
+                                :class="{disabled: sending}"
                                 v-if="isReady"
                                 @click="test">
                             <i class="fa fa-paper-plane" v-if="!sending"></i>
                             <i class="fa fa-spinner fa-spin" v-else></i>
                             Make a sending test
+                        </button>
+                        <button type="submit" class="float-right btn btn-success btn-lg mb-x mx-2"
+                                :class="{disabled: saving}">
+                            <i class="fa fa-cog" v-if="!saving"></i>
+                            <i class="fa fa-spinner fa-spin" v-else></i>
+                            Save configuration
                         </button>
                     </div>
                 </form>
