@@ -113,13 +113,13 @@ class Controller {
 	 * @return bool
 	 */
 	public function send_email( string $address, string $subject, string $message, string $post_link ) {
-		$mail = new Email( $this->settings->get_config() );
+		$email = new Email( $this->settings->get_config() );
 
 		$subject = get_bloginfo() . ' - ' . $subject;
 		$message = $message . '<p>Post link: <a href = "' . $post_link . '">' . $post_link . '</a></p>';
 
 		try {
-			return $mail->send( $address, $subject, $message );
+			return $email->send( $address, $subject, $message );
 		} catch ( \Exception $ex ) {
 			return false;
 		}
