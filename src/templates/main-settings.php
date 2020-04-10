@@ -52,7 +52,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Use custom SMTP credentials
+                        <label>Use SMTP authentication
                             <input type="checkbox" v-model="customSmtp" value="1">
                         </label>
                     </div>
@@ -78,7 +78,7 @@
                     <div class="alert alert-secondary" role="alert" v-if="!defined_pwd">
                         Please remember that you can also setup the <b>EMAIL / SMTP password</b> by creating a <b>CONSTANT</b>
                         inside the <code>wp-config</code>
-                        file for safety, like this:
+                        file for safety:
                         <br><code>define( 'WSN_EMAIL_PWD', 'my-password' );</code>
                     </div>
 
