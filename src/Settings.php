@@ -209,13 +209,15 @@ class Settings {
 			return new \WP_REST_Response( 'Please complete the configuration before testing', 500 );
 		}
 
-		$controller = new Controller( $this );
-		$subject    = 'Email testing';
-		$body       = 'This was an automatic test from ' . Bootstrap::PLUGIN_NAME . ' plugin';
-		$address    = $this->stored_data['config']['email_from'];
-		$link       = home_url();
+		$email = new Email( $this->get_config() );
+		$email->setDebug( 2 );
 
-		if ( ! $controller->send_email( $address, $subject, $body, $link, 2 ) ) {
+		$subject = 'Email testing';
+		$address = $this->stored_data['config']['email_from'];
+		$body    = 'This was an automatic test from ' . Bootstrap::PLUGIN_NAME . ' plugin
+					<p>Site: <a href = "' . home_url() . '">' . home_url() . '</a></p>';
+
+		if ( ! $email->send( $address, $subject, $body ) ) {
 			return new \WP_REST_Response( 'Email not sent, check again your configuration', 500 );
 		}
 
