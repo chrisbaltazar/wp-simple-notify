@@ -110,49 +110,18 @@ class Controller {
 	 * @param string $message
 	 * @param string $post_link
 	 *
-	 * @param int $debug
-	 *
 	 * @return bool
 	 */
-	public function send_email( string $address, string $subject, string $message, string $post_link, int $debug = 0 ) {
-		$mail = $this->get_email( $this->settings->get_config() );
-		if ( $debug ) {
-			$mail->SMTPDebug = $debug;
-		}
+	public function send_email( string $address, string $subject, string $message, string $post_link ) {
+		$mail = new Email( $this->settings->get_config() );
 
-		$mail->AddAddress( $address );
-		$mail->Subject = get_bloginfo() . ' - ' . $subject;
-		$mail->Body    = $message . '<p>Post link: <a href = "' . $post_link . '">' . $post_link . '</a></p>';
+		$subject = get_bloginfo() . ' - ' . $subject;
+		$message = $message . '<p>Post link: <a href = "' . $post_link . '">' . $post_link . '</a></p>';
 
 		try {
-			return $mail->Send();
+			return $mail->send( $address, $subject, $message );
 		} catch ( \Exception $ex ) {
 			return false;
 		}
-
-	}
-
-	/**
-	 * @param array $config
-	 *
-	 * @return \PHPMailer
-	 */
-	private function get_email( array $config ) {
-		require_once( ABSPATH . WPINC . '/class-phpmailer.php' );
-		$mail          = new \PHPMailer();
-		$mail->CharSet = 'UTF-8';
-		$mail->IsHTML( true );
-		$mail->IsSMTP();
-
-		$mail->SMTPAuth   = ! empty( $config['smtp_user'] );
-		$mail->From       = $config['email_from'];
-		$mail->FromName   = $config['sender'];
-		$mail->Host       = $config['host'];
-		$mail->Port       = $config['port'];
-		$mail->SMTPSecure = $config['secure'];
-		$mail->Username   = $config['smtp_user'] ?: $config['email_from'];
-		$mail->Password   = $config[ Settings::DEFINED_PWD_VAR ] ? WSN_EMAIL_PWD : $config['smtp_pwd'] ?: $config['email_pwd'];
-
-		return $mail;
 	}
 }
