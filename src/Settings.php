@@ -219,6 +219,6 @@ class Settings {
 			return new \WP_REST_Response( 'Email not sent, check again your configuration', 500 );
 		}
 
-		return new \WP_REST_Response( 'Email test successfully' );
+		return new \WP_REST_Response( 'Email test successfull' );
 	}
 }
