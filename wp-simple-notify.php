@@ -3,7 +3,7 @@
  * Plugin Name: WP Simple Notify
  * Plugin URI: https://github.com/chrisbaltazar/wp-simple-notify
  * Description: Very simple but efficient plugin to handle common email notifications
- * Version: 1.0
+ * Version: 1.2
  * Author: Chris Baltazar
  **/
 
